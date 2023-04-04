@@ -10,9 +10,9 @@ var elapsedTimeInHours : real
 var averageSpeed : real
 var minute : real
 % Ask user for inputs
-put "Enter the starting time of your trip (in 24-hour format but with a dot e.g. 13.45): "
+put "Enter the start time (in 24-hour format but with a dot e.g. 13.45): "
 get startTime
-put "Enter the finishing time of your trip (in 24-hour format but with a dot e.g. 16.30): "
+put "Enter the finish time (in 24-hour format but with a dot e.g. 16.30): "
 get finishTime
 put "Enter the distance you traveled in kilometers: "
 get distance
