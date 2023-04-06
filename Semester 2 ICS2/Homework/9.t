@@ -5,7 +5,8 @@ loop
     count := count + 1
     put "Loop execution number ", count, ""
     put "Type 'more' to continue."
+    put "Type 'stop' to stop the loop."
     get input
-    exit when input = "NIGGER!"
+    exit when input = "stop"
 end loop
-put "The niggers have gone to the cotton farm , goodbye nigga."
+
