@@ -6,6 +6,6 @@ loop
     put "Loop execution number ", count, ""
     put "Type 'more' to continue."
     get input
-    exit when input = "stop"
+    exit when input = "NIGGER!"
 end loop
-
+put "The niggers have gone to the cotton farm , goodbye nigga."
