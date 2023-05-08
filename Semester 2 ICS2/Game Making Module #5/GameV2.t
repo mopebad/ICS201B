@@ -45,19 +45,21 @@ vely := 0
 % Movement Procedure box1
 proc MOVEMENT
     % Left and Right
-    if chars (KEY_RIGHT_ARROW) and whatdotcolour (posx - 10, posy + 40) not = black 
+    if chars (KEY_LEFT_ARROW) and whatdotcolour (posx - 10, posy + 40) not = black 
 			       and whatdotcolour (posx - 10, posy) not = black then                   
 	% Use 'a' for the a key instead
-	velx := 10
-    elsif chars (KEY_LEFT_ARROW) and whatdotcolour(posx-10,posy) not = black
-			       and whatdotcolour(posx-10,posy+40) not = black then 
 	velx := -10
+    elsif chars (KEY_RIGHT_ARROW) and whatdotcolour(posx + 30,posy + 40) not = black
+			       and whatdotcolour(posx + 30,posy) not = black then 
+	velx := 10
     else
 	velx := 0
     
-    if chars (KEY_UP_ARROW) then
+    if chars (KEY_UP_ARROW) and whatdotcolour(posx,posy + 50) not = black
+			       and whatdotcolour(posx + 20,posy + 50) not = black then 
 	vely := 10
-    elsif chars (KEY_DOWN_ARROW) then
+    elsif chars (KEY_DOWN_ARROW) and whatdotcolour(posx,posy - 10) not = black
+			       and whatdotcolour(posx + 20,posy - 10) not = black then 
 	vely := -10
     else
 	vely := 0
