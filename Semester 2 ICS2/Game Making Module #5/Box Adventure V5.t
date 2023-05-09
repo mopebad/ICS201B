@@ -1,53 +1,50 @@
-% Game Project V2
-% By : Joshua Chan
+%Game Project V1
+%By: Mr. Cardona
 
 put "Welcome to the Box Game! Press 'g' to end game!"
-put "The game will automatically start in 10 seconds!"
+put "The game will automatically start in 10 seconds"
 
-for count : 1 .. 10
+for count:1 .. 10
     put count
-    delay (100)
+    delay(100)
 end for
 
-% Setup Game Screen
-setscreen ("graphics:1000;750,nobuttonbar,position:center;center,offscreenonly,")
-colorback (white)
-color (black)
+%Set up Game Screen
+setscreen("graphics:1000;750,nobuttonbar,position:center;center,offscreenonly")
+colorback(white)
+color(black)
 View.Update
 
-% Inserting Map & Character
-var mapmain : int
-mapmain := Pic.FileNew ("tianyu.bmp")
+%Inserting Map & Character
+var map1:int
+map1:=Pic.FileNew("BackgroundMap1.bmp")
 
-var mapstock : int
-mapstock := Pic.FileNew ("tianyu2.bmp")
+var colormap1:int
+colormap1:=Pic.FileNew("ColorMap1.bmp")
 
-var box2 : int
-box2 := Pic.FileNew ("blackbox.bmp")
+var box:int
+box:=Pic.FileNew("CharacterBox.bmp")
 
-var box : int
-box := Pic.FileNew ("character.bmp")
+var bluebox:int
+bluebox:=Pic.FileNew("MrBlue.bmp")
 
+%Movement & Position
+var chars:array char of boolean
+%Variable 'Chars' will be using keyboard inputs
 
+var posx, posy,posx2,posy2:int
+posx:=100
+posy:=100
+posx2:=150
+posy2:=150
 
-% Movement & Position (chars = characters)
-var chars : array char of boolean
-% Variable 'Chars' will be using keyboard inputs
+var velx, vely,velx2,vely2:int
+velx:=0
+vely:=0
+velx2:=0
+vely2:=0
 
-var posx, posy, posx2, posy2 : int
-posx := 20
-posy := 590
-posx2 := 60
-posy2 := 590
-
-
-var velx, vely, velx2, vely2: int
-velx := 0
-vely := 0
-velx2 := 0
-vely2 := 0
-
-% Movement Procedure box1
+%Movement procedure
 proc MOVEMENT
     %left and right
     if chars (KEY_RIGHT_ARROW) and whatdotcolour(posx+30,posy) not = black
@@ -76,19 +73,8 @@ proc MOVEMENT
     posy:=posy+round(vely)  
     posx:=posx+round(velx)
     
-
-
-% Reset player position to starting point
-
-    if chars ('r') then
-	posx := 20
-	posy := 590
-    end if
-    
 end MOVEMENT
 
-
-% Movement Procedure box2
 proc MOVEMENT2
     %left and right
     if chars ('d') and whatdotcolour(posx2+30,posy2) not = black
@@ -118,33 +104,32 @@ proc MOVEMENT2
     posx2:=posx2+round(velx2)
     
 end MOVEMENT2
-
-% GAME procedure
+	
+%GAME procedure
 proc GAME
     cls
-    Pic.Draw (mapstock, 0, 0, picCopy)
+    Pic.Draw(map1,0,0,picCopy)
     MOVEMENT
     MOVEMENT2
-    Pic.Draw (mapmain, 0, 0, picCopy)
-    Pic.Draw (box, posx, posy, picMerge)
-    Pic.Draw (box2, posx2, posy2, picMerge)
-
+    Pic.Draw(colormap1,0,0,picCopy)
+    %Add movement procedure BEFORE the character
+    Pic.Draw(box,posx,posy,picMerge)
+    Pic.Draw(bluebox,posx2,posy2,picMerge)
     View.Update
 end GAME
 
-% Running the actual game!
+%Running the actual game! 
 loop
-    Input.KeyDown (chars)
-    % Allows input to come from keys being pressed down
-    if chars ('g') then
+    Input.KeyDown(chars)
+    %Allows input to come from keys being pressed down
+    if chars('g') then
 	exit
     end if
     GAME
-    delay (60)
-    %"fps" of 60
+    delay(50)
+    %"fps" of 50 
 end loop
 
-
-% Eng Message
+%End Message
 cls
-put "GG"
+put "Good game! (gg), thank you for playing!"
