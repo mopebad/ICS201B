@@ -121,7 +121,7 @@ end MOVEMENT2
 
 % GAME procedure
 proc GAME
-    cls
+    cls 
     Pic.Draw (mapstock, 0, 0, picCopy)
     MOVEMENT
     MOVEMENT2
