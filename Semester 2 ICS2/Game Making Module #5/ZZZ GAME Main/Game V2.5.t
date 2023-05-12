@@ -70,10 +70,12 @@ proc MOVEMENT
     %up  and down
     if chars (KEY_DOWN_ARROW) and whatdotcolour(posx,posy-10) not = black
 			      and whatdotcolour(posx+20,posy-10) not = black
+			      and whatdotcolour(posx+10,posy-10) not = black
 			      and posy > 0 then 
 	%use 'a' for the a key instead
 	vely:=-10
     elsif chars (KEY_UP_ARROW) and whatdotcolour(posx,posy+50) not = black
+			       and whatdotcolour(posx+10,posy+50) not = black
 			       and whatdotcolour(posx+20,posy+50) not = black 
 			       and posy < (maxy - 40) then
 			       % Can also use "maxy - 40" to make things
@@ -104,11 +106,17 @@ proc MOVEMENT2
     %left and right
     if chars ('d') and whatdotcolour(posx2+30,posy2) not = black
 		   and whatdotcolour(posx2+30,posy2+40) not = black
+		   and whatdotcolour(posx2+30,posy2+10) not = black
+		   and whatdotcolour(posx2+30,posy2+20) not = black
+		   and whatdotcolour(posx2+30,posy2+30) not = black
 		   and posx2 < (maxx - 20) then  
 	%use 'a' for the a key instead
 	velx2:=10
     elsif chars ('a')and whatdotcolour(posx2-10,posy2) not = black
 		     and whatdotcolour(posx2-10,posy2+40) not = black
+		     and whatdotcolour(posx2-10,posy2+30) not = black
+		     and whatdotcolour(posx2-10,posy2+20) not = black 
+		     and whatdotcolour(posx2-10,posy2+10) not = black 
 		     and posx2 > 0 then
 	velx2:=-10
     else
@@ -122,6 +130,7 @@ proc MOVEMENT2
 	%use 'a' for the a key instead
 	vely2:=-10
     elsif chars ('w') and whatdotcolour(posx2,posy2+50) not = black
+		      and whatdotcolour(posx2+10,posy2+50) not = black
 		      and whatdotcolour(posx2+20,posy2+50) not = black
 		      and posy2 < (maxy - 40) then
 	vely2:=10
