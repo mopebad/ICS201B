@@ -185,6 +185,45 @@ proc MOVEMENT2
     posy2:=posy2+round(vely2)  
     posx2:=posx2+round(velx2)
     
+    %Damage system!
+    if whatdotcolour(posx2+10,posy2+20) = red then
+	HP:=HP - dmg
+    else
+	HP:=HP
+    end if
+    
+    %Healing
+    if whatdotcolour(posx2,posy2) = green then
+	HP:=HP + Heal
+    elsif whatdotcolour(posx2+20,posy2) = green then
+	HP:=HP + Heal
+    elsif whatdotcolour(posx2+20,posy2+40) = green then
+	HP:=HP + Heal
+    elsif whatdotcolour(posx2,posy2+40) = green then
+	HP:=HP + Heal
+    else
+	HP:=HP
+    end if
+    
+    if HP > 100 then
+	HP:=100
+    end if
+    
+    %Teleportation
+    if whatdotcolour(posx2+10,posy2+20) = blue and chars(' ') then
+						   %only active for space bar!
+	posx2:=350
+	posy2:=430
+    end if
+    
+    %Level up system!
+    if whatdotcolour(posx+10,posy+20) = yellow and chars(' ') then
+						   %only active for space bar!
+	posx:=100
+	posy:=100
+	Lvl:=Lvl+1
+    end if
+    
 end MOVEMENT2
 
 %GAME procedure
@@ -193,7 +232,7 @@ proc Level1
     Pic.Draw(mapstock,0,0,picCopy)
     MOVEMENT
     MOVEMENT2
-    %Pic.Draw(mapmain,0,0,picCopy)
+    Pic.Draw(mapmain,0,0,picCopy)
     %Add movement procedure BEFORE the character
     Pic.Draw(box,posx,posy,picMerge)
     Pic.Draw(box2,posx2,posy2,picMerge)
@@ -233,11 +272,11 @@ end loop
 
 %End Message
 cls
-if Lvl = 3 then
-    put "CONGRATS YOU WIN!"
+if Lvl = 2 then
+    put "U win"
 elsif Life = 3 then
     put "YOU LOST!"
 else
     put "gg"
-end if
+end if  
 
