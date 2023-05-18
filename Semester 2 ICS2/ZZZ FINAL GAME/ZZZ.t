@@ -55,35 +55,160 @@ vely := 0
 velx2 := 0
 vely2 := 0
 
-% GAME procedure
+%Movement procedure 60 x80 
+proc MOVEMENT
+    %left and right
+    if chars (KEY_RIGHT_ARROW) and whatdotcolour(posx+67,posy) not = black
+			       and whatdotcolour(posx+67,posy+80) not = black 
+			       and posx < (maxx - 57) then 
+	%use 'a' for the a key instead
+	velx:=10
+    elsif chars (KEY_LEFT_ARROW)and whatdotcolour(posx-10,posy) not = black
+				and whatdotcolour(posx-10,posy+80) not = black
+				and posx > 0 then
+	velx:=-10
+    else
+	velx:=0
+    end if 
+    
+    %up  and down
+    if chars (KEY_DOWN_ARROW) and whatdotcolour(posx,posy-10) not = black
+			      and whatdotcolour(posx+57,posy-10) not = black 
+			      and whatdotcolour(posx+30,posy-10) not = black
+			      and posy > 0 then 
+	%use 'a' for the a key instead
+	vely:=-10
+    elsif chars (KEY_UP_ARROW) and whatdotcolour(posx,posy+90) not = black
+			       and whatdotcolour(posx+57,posy+90) not = black 
+			       and whatdotcolour(posx+30,posy+90) not = black
+			       and posy < (maxy - 80) then
+			       %750 is max y value, - 40 for character height
+	vely:=10
+    else
+	vely:=0
+    end if 
+    
+    posy:=posy+round(vely)  
+    posx:=posx+round(velx)
+    
+    %Damage system!
+    if whatdotcolour(posx+10,posy+20) = red then
+	HP:=HP - dmg
+    else
+	HP:=HP
+    end if
+    
+    %Healing
+    if whatdotcolour(posx,posy) = green then
+	HP:=HP + Heal
+    elsif whatdotcolour(posx+20,posy) = green then
+	HP:=HP + Heal
+    elsif whatdotcolour(posx+20,posy+40) = green then
+	HP:=HP + Heal
+    elsif whatdotcolour(posx,posy+40) = green then
+	HP:=HP + Heal
+    else
+	HP:=HP
+    end if
+    
+    if HP > 100 then
+	HP:=100
+    end if
+    
+    %Teleportation
+    if whatdotcolour(posx+10,posy+20) = blue and chars(' ') then
+						   %only active for space bar!
+	posx:=300
+	posy:=350
+    end if
+    
+    %Level up system!
+    if whatdotcolour(posx+10,posy+20) = yellow and chars(' ') then
+						   %only active for space bar!
+	posx:=100
+	posy:=100
+	Lvl:=Lvl+1
+    end if
+    
+end MOVEMENT
+
+proc MOVEMENT2
+    %left and right
+    if chars ('d') and whatdotcolour(posx2+30,posy2) not = black
+		   and whatdotcolour(posx2+30,posy2+40) not = black then 
+	%use 'a' for the a key instead
+	velx2:=10
+    elsif chars ('a')and whatdotcolour(posx2-10,posy2) not = black
+		     and whatdotcolour(posx2-10,posy2+40) not = black then
+	velx2:=-10
+    else
+	velx2:=0
+    end if 
+    
+    %up  and down
+    if chars ('s') and whatdotcolour(posx2,posy2-10) not = black
+		   and whatdotcolour(posx2+20,posy2-10) not = black then 
+	%use 'a' for the a key instead
+	vely2:=-10
+    elsif chars ('w') and whatdotcolour(posx2,posy2+50) not = black
+		      and whatdotcolour(posx2+20,posy2+50) not = black then
+	vely2:=10
+    else
+	vely2:=0
+    end if   
+    
+    posy2:=posy2+round(vely2)  
+    posx2:=posx2+round(velx2)
+    
+end MOVEMENT2
+
+
+%GAME procedure
+proc title
+if chars(' ') then
+						   %only active for space bar!
+	posx:=100
+	posy:=100
+	Lvl:=Lvl+1
+    end if
+end title
+
+
+% Title Screen
 proc Level1
-    cls
-    Pic.Draw(mainmap, 0, 0, picCopy)
-    % MOVEMENT
-    % Add movement procedure BEFORE the character
-    Pic.Draw(char1, posx, posy, picMerge)
-    Pic.Draw(char2, posx2, posy2, picMerge)
-    drawfillbox(1, 745, HP, 725, brightgreen)
-    drawbox(1, 745, 100, 725, yellow)
-    %(xStart, yStart, xEnd, yEnd)
+    Pic.Draw(maptitle, 0, 0, picCopy)
+    title
     View.Update
 end Level1
 
-proc GameLoop
-    loop
-	Input.KeyDown(chars)
-	% Allows input to come from keys being pressed down
-	if chars(' ') then
-	    posx := 100
-	    posy := 100
-	    Lvl := Lvl + 1
-	    if Lvl = 1 then
-		Level1
-	    end if
-	end if
-	delay(10)
-    end loop
-end GameLoop
+
+
+proc Level2
+    cls
+    Pic.Draw(mainmap,0,0,picCopy)
+    MOVEMENT
+    MOVEMENT2
+    Pic.Draw(char1,posx,posy,picMerge)
+    Pic.Draw(char2,posx2,posy2,picMerge)
+    drawfillbox(1,745,HP,725,brightgreen)
+    drawbox(1,745,100,725,yellow)
+    %(xStart,ystart,xEnd,yEnd)
+    View.Update
+end Level2
+
+%Level 2 procedure
+proc Level3
+    cls
+    Pic.Draw(mainmap2,0,0,picCopy)
+    MOVEMENT
+    MOVEMENT2
+    Pic.Draw(char1,posx,posy,picMerge)
+    Pic.Draw(char2,posx2,posy2,picMerge)
+    drawfillbox(1,745,HP,725,brightgreen)
+    drawbox(1,745,100,725,yellow)
+    %(xStart,ystart,xEnd,yEnd)
+    View.Update
+end Level3
 
 
 %Running the actual game! 
@@ -108,6 +233,8 @@ loop
 	Level1
     elsif Lvl=2 then
 	Level2
+    elsif Lvl=3 then
+	Level3
     else
 	exit
 	%Exit if the player WINS
@@ -129,11 +256,5 @@ end if
 
 
 
-% Title Screen
-proc titlesrc
-    Pic.Draw(maptitle, 0, 0, picCopy)
-    View.Update
-end titlesrc
 
-titlesrc
-GameLoop
+
