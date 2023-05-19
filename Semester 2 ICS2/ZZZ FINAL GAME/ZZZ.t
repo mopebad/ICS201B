@@ -28,6 +28,10 @@ mainmap2 := Pic.FileNew("mainmap2.bmp")
 
 var Circle:int
 Circle:=Pic.FileNew("nightmangoon.bmp")
+ 
+var mainmapcolor : int
+mainmapcolor := Pic.FileNew("mainmapcolor.bmp")
+
 
 % Health System & Damage System
 var HP, dmg, Heal : int
@@ -45,19 +49,33 @@ Life := 0
 
 %Variable for MOVING thing
 var posxC,posyC:int
-posxC:=100
-posyC:=100
+posxC:=220
+posyC:=160
+var posxC2,posyC2:int
+posxC2:=360
+posyC2:=35
 
 var velxC:int
-velxC:=10
-
+velxC:=15
+var velxC2:int
+velxC2:=10
 %Procedure for moving thign! 
 proc MovingCircle
     posxC:=posxC+velxC
-    if posxC>=maxx or posxC<=0 then
+    if posxC>=728 or posxC<=0 then
 	velxC:=-velxC
     end if
 end MovingCircle
+
+proc MovingCircle2
+    posxC2:=posxC2+velxC2
+    if posxC2>=728 or posxC2<=120 then
+	velxC2:=-velxC2
+    end if
+end MovingCircle2
+
+
+
 
 % Movement & Position (chars = characters)
 var chars : array char of boolean
@@ -205,11 +223,15 @@ end Level1
 proc Level2
     cls
     Pic.Draw(mainmap,0,0,picCopy)
-    MovingCircle
+    Draw.FillOval(posxC2,posyC2,25,35,red)
+    MovingCircle2
     Draw.FillOval(posxC,posyC,25,35,red)
+    MovingCircle
     MOVEMENT
     MOVEMENT2
-    Pic.Draw(Circle,posxC-25,posyC-35,picMerge)
+    Pic.Draw(mainmapcolor,0,0,picCopy)
+    Pic.Draw(Circle,posxC-30,posyC-35,picMerge)
+    Pic.Draw(Circle,posxC2-30,posyC2-35,picMerge)
     Pic.Draw(char1,posx,posy,picMerge)
     Pic.Draw(char2,posx2,posy2,picMerge)
     drawfillbox(1,745,HP,725,brightgreen)
