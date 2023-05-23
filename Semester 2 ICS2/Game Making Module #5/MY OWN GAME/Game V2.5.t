@@ -1,4 +1,4 @@
-% Game Project V2
+    % Game Project V2
 % By : Joshua Chan
 
 put "Welcome to the Box Game! Press 'g' to end game!g"
