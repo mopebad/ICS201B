@@ -107,7 +107,7 @@ loop
     if Lvl=1 then
 	Level1
     elsif Lvl=2 then
-	Level2
+      Level2
     else
 	exit
 	%Exit if the player WINS
@@ -119,9 +119,9 @@ end loop
 %End Message
 cls
 if Lvl = 3 then
-    put "CONGRATS YOU WIN!"
+    put "YOU ESCAPED NIGHTMAN!"
 elsif Life = 3 then
-    put "YOU LOST!"
+    put "NIGHTMAN CAUGHT YOU!"
 else
     put "Good game! (gg), thank you for playing!"
 end if
