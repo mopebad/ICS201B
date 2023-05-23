@@ -1,6 +1,5 @@
 % ZZZ FINAL
-% By: Joshua, Etode, Errari, Eathands, Ethan, Eathan, Eattai, Enigger, Ethands, Fabbytai, Eapatty.
-
+% By: Joshua and Ethan
 % Setup Game Screen
 setscreen("graphics:1000;750,nobuttonbar,position:center;center,offscreenonly,")
 colorback(white)
