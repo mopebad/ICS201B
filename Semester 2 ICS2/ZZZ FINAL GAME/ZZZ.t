@@ -1,10 +1,6 @@
 % ZZZ FINAL
-<<<<<<< HEAD
-% By: Joshua and Ethan
-=======
 % By: Joshua, Ethan.
 
->>>>>>> 023c5abfb2903185fe28659fc7c91ff75d5f5dcc
 % Setup Game Screen
 setscreen ("graphics:1000;750,nobuttonbar,position:center;center,offscreenonly,")
 colorback (white)
@@ -279,15 +275,12 @@ loop
     end if
     if Lvl = 1 then
 	Level1
-<<<<<<< HEAD
-    elsif Lvl=2 then
-      Level2
-=======
+    elsif Lvl = 2 then
+	Level2
     elsif Lvl = 2 then
 	Level2
     elsif Lvl = 3 then
 	Level3
->>>>>>> 1ae37c79483a8c123e26656ee19d1c792b42af32
     else
 	exit
 	%Exit if the player WINS
@@ -305,7 +298,6 @@ elsif Life = 3 then
 else
     put "Good game! (gg), thank you for playing!"
 end if
-
 
 
 
