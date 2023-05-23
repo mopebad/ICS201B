@@ -303,6 +303,11 @@ loop
     end if
     if Lvl = 1 then
 	Level1
+<<<<<<< HEAD
+=======
+    elsif Lvl = 2 then
+	Level2
+>>>>>>> 4f39bbc64dd771004dcb3c50ce5ae4760d550693
     elsif Lvl = 2 then
 	Level2
     elsif Lvl = 3 then
@@ -324,7 +329,6 @@ elsif Life = 3 then
 else
     put "Good game! (gg), thank you for playing!"
 end if
-
 
 
 
