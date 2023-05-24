@@ -178,7 +178,7 @@ proc MOVEMENT
     posx := posx + round (velx)
 
     %Damage system!
-    if whatdotcolour (posx + 10, posy + 20) = red then
+    if whatdotcolour (posx + 30, posy + 40) = red then
 	HP := HP - dmg
     else
 	HP := HP
@@ -323,18 +323,18 @@ end Level1
 proc Level2
     cls
     Pic.Draw (mainmap, 0, 0, picCopy)
-    Draw.FillOval (posxC2, posyC2, 25, 35, red)
+    Draw.FillOval(posxC2, posyC2, 28, 43, red)
     MovingCircle2
-    Draw.FillOval (posxC, posyC, 25, 35, red)
+    Draw.FillOval (posxC, posyC, 28, 43, red)
     MovingCircle
-    Draw.FillOval (posxC3, posyC3, 25, 35, red)
+    Draw.FillOval (posxC3, posyC3, 28, 43, red)
     MovingCircle3
-    Draw.FillOval (posxC4, posyC4, 25, 35, red)
+    Draw.FillOval (posxC4, posyC4, 28, 43, red)
     MovingCircle4
-    Draw.FillOval (posxC5, posyC5, 25, 35, red)
+    Draw.FillOval (posxC5, posyC5, 28, 43, red)
     MovingCircle5
     MOVEMENT
-    Pic.Draw (mainmapcolor, 0, 0, picCopy)
+    %Pic.Draw (mainmapcolor, 0, 0, picCopy)
     Pic.Draw (Circle, posxC - 30, posyC - 35, picMerge)
     Pic.Draw (Circle, posxC2 - 30, posyC2 - 35, picMerge)
     Pic.Draw (Circle, posxC3 - 30, posyC3 - 35, picMerge)
@@ -468,7 +468,7 @@ if Lvl = 5 then
     put "CONGRATS YOU WIN!"
 elsif Life = 3 then
     put "YOU LOST!"
-else
+else 
     put "Good game! (gg), thank you for playing!"
 end if
 
