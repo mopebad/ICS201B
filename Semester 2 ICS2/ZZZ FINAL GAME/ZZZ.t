@@ -32,11 +32,14 @@ Circle := Pic.FileNew ("nightmangoon.bmp")
 var mainmapcolor : int
 mainmapcolor := Pic.FileNew ("mainmapcolor.bmp")
 
+var room1 : int
+room1 := Pic.FileNew ("room2.bmp")
+
 
 % Health System & Damage System
 var HP, dmg, Heal : int
 HP := 100
-dmg := 10
+dmg := 12
 Heal := 5
 
 % Level Variable
@@ -46,6 +49,8 @@ Lvl := 1
 % Life Counter
 var Life : int
 Life := 0
+
+
 
 %Variable for MOVING thing
 var posxC, posyC : int
@@ -94,6 +99,7 @@ vely2 := 0
 
 %Movement procedure 60 x80
 proc MOVEMENT
+    
     %left and right
     if chars (KEY_RIGHT_ARROW) and whatdotcolour (posx + 67, posy) not= black
 	    and whatdotcolour (posx + 67, posy + 80) not= black
@@ -153,10 +159,11 @@ proc MOVEMENT
     end if
 
     %Teleportation
-    if whatdotcolour (posx + 10, posy + 20) = blue and chars (' ') then
+    if whatdotcolour (posx + 10, posy + 20) = green and chars (' ') then
 	%only active for space bar!
-	posx := 300
-	posy := 350
+	posx := 940
+	posy := 690
+	Lvl := Lvl + 1
     end if
 
     %Level up system!
@@ -202,20 +209,33 @@ end MOVEMENT2
 
 %GAME procedure
 proc title
+   
     if chars (' ') then
 	%only active for space bar!
 	posx := 100
 	posy := 100
 	Lvl := Lvl + 1
+	
     end if
+  
+    
+    
 end title
 
+process DoMusic
+loop
+Music.PlayFile ("Music1.mp3")
+end loop
+end DoMusic
+
+fork DoMusic
 
 % Title Screen
 proc Level1
     Pic.Draw (maptitle, 0, 0, picCopy)
     title
     View.Update
+
 end Level1
 
 
@@ -228,7 +248,6 @@ proc Level2
     Draw.FillOval (posxC, posyC, 25, 35, red)
     MovingCircle
     MOVEMENT
-    MOVEMENT2
     Pic.Draw (mainmapcolor, 0, 0, picCopy)
     Pic.Draw (Circle, posxC - 30, posyC - 35, picMerge)
     Pic.Draw (Circle, posxC2 - 30, posyC2 - 35, picMerge)
@@ -240,8 +259,17 @@ proc Level2
     View.Update
 end Level2
 
-%Level 2 procedure
 proc Level3
+    cls
+    Pic.Draw (room1, 0, 0, picCopy)
+    MOVEMENT
+    Pic.Draw (char1, posx ,posy, picMerge)
+    View.Update
+end Level3
+
+
+
+proc Level4
     cls
     Pic.Draw (mainmap2, 0, 0, picCopy)
     MOVEMENT
@@ -252,7 +280,7 @@ proc Level3
     drawbox (1, 745, 100, 725, yellow)
     %(xStart,ystart,xEnd,yEnd)
     View.Update
-end Level3
+end Level4
 
 
 %Running the actual game!
@@ -275,15 +303,14 @@ loop
     end if
     if Lvl = 1 then
 	Level1
-<<<<<<< HEAD
-    elsif Lvl=2 then
-      Level2
-=======
+    elsif Lvl = 2 then
+	Level2
     elsif Lvl = 2 then
 	Level2
     elsif Lvl = 3 then
 	Level3
->>>>>>> 1ae37c79483a8c123e26656ee19d1c792b42af32
+    elsif Lvl = 4 then
+	Level4
     else
 	exit
 	%Exit if the player WINS
@@ -294,14 +321,13 @@ end loop
 
 %End Message
 cls
-if Lvl = 3 then
-    put "YOU ESCAPED NIGHTMAN!"
+if Lvl = 4 then
+    put "CONGRATS YOU WIN!"
 elsif Life = 3 then
-    put "NIGHTMAN CAUGHT YOU!"
+    put "YOU LOST!"
 else
     put "Good game! (gg), thank you for playing!"
 end if
-
 
 
 
