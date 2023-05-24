@@ -40,10 +40,12 @@ room2main := Pic.FileNew ("room2main.bmp")
 
 
 % Health System & Damage System
-var HP, dmg, Heal : int
+var HP, HP2, dmg, Heal : int
 HP := 100
+HP2 := 100
 dmg := 12
 Heal := 5
+
 
 % Level Variable
 var Lvl : int
@@ -63,16 +65,28 @@ var posxC2, posyC2 : int
 posxC2 := 360
 posyC2 := 35
 var posxC3, posyC3 : int
-posxC3 := 950
+posxC3 := 980
 posyC3 := 700
+var posxC4, posyC4 : int
+posxC4 := 900
+posyC4 := 700
+var posxC5, posyC5 : int
+posxC5 := 820
+posyC5 := 700
 
 var velxC : int
 velxC := 15
 var velxC2 : int
 velxC2 := 10
-var velyC3 :int
-velyC3 := 15
-%Procedure for moving thign!
+var velyC3 : int
+velyC3 := 17
+var velyC4 : int
+velyC4 := 15
+var velyC5 : int
+velyC5 := 20
+
+%Procedure for moving enemies
+
 proc MovingCircle
     posxC := posxC + velxC
     if posxC >= 728 or posxC <= 0 then
@@ -89,10 +103,24 @@ end MovingCircle2
 
 proc MovingCircle3
     posyC3 := posyC3 + velyC3
-    if posyC3 >= 750 or posyC3 <= 0 then
+    if posyC3 >= 720 or posyC3 <= 20 then
 	velyC3 := -velyC3
     end if
 end MovingCircle3
+
+proc MovingCircle4
+    posyC4 := posyC4 + velyC4
+    if posyC4 >= 720 or posyC4 <= 20 then
+	velyC4 := -velyC4
+    end if
+end MovingCircle4
+
+proc MovingCircle5
+    posyC5 := posyC5 + velyC5
+    if posyC5 >= 720 or posyC5 <= 20 then
+	velyC5 := -velyC5
+    end if
+end MovingCircle5
 
 
 
@@ -177,7 +205,7 @@ proc MOVEMENT
     if whatdotcolour (posx + 10, posy + 20) = green then
 	%only active for space bar!
 	posx := 940
-	posy := 690
+	posy := 660
 	Lvl := Lvl + 1
     end if
 
@@ -196,12 +224,14 @@ end MOVEMENT
 
 proc MOVEMENT2
     %left and right
-    if chars ('d') and whatdotcolour (posx2 + 30, posy2) not= black
-	    and whatdotcolour (posx2 + 30, posy2 + 40) not= black then
+    if chars ('d') and whatdotcolour (posx2 + 70, posy2) not= black
+	    and whatdotcolour (posx2 + 70 ,posy2 + 80) not= black 
+	    and posx2 < (maxx - 60) then
 	%use 'a' for the a key instead
 	velx2 := 10
     elsif chars ('a') and whatdotcolour (posx2 - 10, posy2) not= black
-	    and whatdotcolour (posx2 - 10, posy2 + 40) not= black then
+	    and whatdotcolour (posx2 - 10, posy2 + 80) not= black 
+	    and posx2 > 0 then
 	velx2 := -10
     else
 	velx2 := 0
@@ -209,11 +239,13 @@ proc MOVEMENT2
 
     %up  and down
     if chars ('s') and whatdotcolour (posx2, posy2 - 10) not= black
-	    and whatdotcolour (posx2 + 20, posy2 - 10) not= black then
+	    and whatdotcolour (posx2 + 60, posy2 - 10) not= black 
+	    and posy2 > 0 then
 	%use 'a' for the a key instead
 	vely2 := -10
-    elsif chars ('w') and whatdotcolour (posx2, posy2 + 50) not= black
-	    and whatdotcolour (posx2 + 20, posy2 + 50) not= black then
+    elsif chars ('w') and whatdotcolour (posx2, posy2 + 90) not= black
+	    and whatdotcolour (posx2 + 60, posy2 + 90) not= black 
+	    and posy2 < (maxy - 80) then
 	vely2 := 10
     else
 	vely2 := 0
@@ -224,8 +256,32 @@ proc MOVEMENT2
     posx2 := posx2 + round (velx2)
 
     if Lvl = 3 then
-	posx2 := 665
-	posy2 := 508
+	posx2 := 650
+	posy2 := 485
+    end if
+    
+     %Damage system!
+    if whatdotcolour (posx2 + 30, posy2 + 40) = red then
+	HP2 := HP2 - dmg
+    else
+	HP2 := HP2
+    end if
+
+    %Healing
+    if whatdotcolour (posx2, posy2) = green then
+	HP2 := HP2 + Heal
+    elsif whatdotcolour (posx2 + 60, posy2) = green then
+	HP2 := HP2 + Heal
+    elsif whatdotcolour (posx2 + 60, posy2 + 80) = green then
+	HP2 := HP2 + Heal
+    elsif whatdotcolour (posx2, posy2 + 80) = green then
+	HP2 := HP2 + Heal
+    else
+	HP2 := HP2
+    end if
+
+    if HP2 > 100 then
+	HP2 := 100
     end if
 
 end MOVEMENT2
@@ -248,7 +304,7 @@ end title
 
 process DoMusic
     loop
-	Music.PlayFile ("Music1.mp3")
+	Music.PlayFile ("Music2.mp3")
     end loop
 end DoMusic
 
@@ -273,19 +329,27 @@ proc Level2
     MovingCircle
     Draw.FillOval (posxC3, posyC3, 25, 35, red)
     MovingCircle3
+    Draw.FillOval (posxC4, posyC4, 25, 35, red)
+    MovingCircle4
+    Draw.FillOval (posxC5, posyC5, 25, 35, red)
+    MovingCircle5
     MOVEMENT
     Pic.Draw (mainmapcolor, 0, 0, picCopy)
     Pic.Draw (Circle, posxC - 30, posyC - 35, picMerge)
     Pic.Draw (Circle, posxC2 - 30, posyC2 - 35, picMerge)
     Pic.Draw (Circle, posxC3 - 30, posyC3 - 35, picMerge)
+    Pic.Draw (Circle, posxC4 - 30, posyC4 - 35, picMerge)
+    Pic.Draw (Circle, posxC5 - 30, posyC5 - 35, picMerge)
     Pic.Draw (char1, posx, posy, picMerge)
     drawfillbox (1, 745, HP, 725, brightgreen)
     drawbox (1, 745, 100, 725, yellow)
+    drawfillbox (1, 720, HP2, 700, brightgreen)
+    drawbox (1, 720, 100, 700, yellow)
     %(xStart,ystart,xEnd,yEnd)
     View.Update
 end Level2
 
-proc Level4
+proc Level4 % Back to the mainmap after going into the room
     cls
     Pic.Draw (mainmap, 0, 0, picCopy)
     Draw.FillOval (posxC2, posyC2, 25, 35, red)
@@ -294,16 +358,24 @@ proc Level4
     MovingCircle
     Draw.FillOval (posxC3, posyC3, 25, 35, red)
     MovingCircle3
+    Draw.FillOval (posxC4, posyC4, 25, 35, red)
+    MovingCircle4
+    Draw.FillOval (posxC5, posyC5, 25, 35, red)
+    MovingCircle5
     MOVEMENT
     MOVEMENT2
     Pic.Draw (mainmapcolor, 0, 0, picCopy)
     Pic.Draw (Circle, posxC - 30, posyC - 35, picMerge)
     Pic.Draw (Circle, posxC2 - 30, posyC2 - 35, picMerge)
     Pic.Draw (Circle, posxC3 - 30, posyC3 - 35, picMerge)
+    Pic.Draw (Circle, posxC4 - 30, posyC4 - 35, picMerge)
+    Pic.Draw (Circle, posxC5 - 30, posyC5 - 35, picMerge)
     Pic.Draw (char1, posx, posy, picMerge)
     Pic.Draw (char2, posx2, posy2, picMerge)
     drawfillbox (1, 745, HP, 725, brightgreen)
     drawbox (1, 745, 100, 725, yellow)
+    drawfillbox (1, 720, HP2, 700, brightgreen)
+    drawbox (1, 720, 100, 700, yellow)
     %(xStart,ystart,xEnd,yEnd)
     View.Update
 end Level4
@@ -318,6 +390,10 @@ proc Level3
     Pic.Draw (char1, posx, posy, picMerge)
     Pic.Draw (char2, posx2, posy2, picMerge)
     View.Update
+    drawfillbox (1, 720, HP2, 700, brightgreen)
+    drawbox (1, 720, 100, 700, yellow)
+    drawfillbox (1, 745, HP, 725, brightgreen)
+    drawbox (1, 745, 100, 725, yellow)
 end Level3
 
 
@@ -331,6 +407,8 @@ proc Level5
     Pic.Draw (char2, posx2, posy2, picMerge)
     drawfillbox (1, 745, HP, 725, brightgreen)
     drawbox (1, 745, 100, 725, yellow)
+    drawfillbox (1, 720, HP2, 700, brightgreen)
+    drawbox (1, 720, 100, 700, yellow)
     %(xStart,ystart,xEnd,yEnd)
     View.Update
 end Level5
@@ -349,11 +427,22 @@ loop
 	posy := 30
 	HP := 100
 	Life := Life + 1
+	end if 
 	if Life = 3 then
 	    exit
 	end if
+    if HP2 < 1 then
+	posx2 := 30
+	posy2 := 30
+	HP2 := 100
+	Life := Life + 1
+	if Life = 3 then
+	    exit
+	end if
+	end if 
+      
 	%exit if the player DIES
-    end if
+    
     if Lvl = 1 then
 	Level1
     elsif Lvl = 2 then
@@ -371,6 +460,7 @@ loop
     delay (50)
     %"fps" of 50
 end loop
+
 
 %End Message
 cls
