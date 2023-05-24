@@ -224,7 +224,7 @@ end title
 
 process DoMusic
 loop
-Music.PlayFile ("Music1.mp3")
+Music.PlayFile ("TitleTrack.mp3")
 end loop
 end DoMusic
 
@@ -303,11 +303,8 @@ loop
     end if
     if Lvl = 1 then
 	Level1
-<<<<<<< HEAD
-=======
     elsif Lvl = 2 then
 	Level2
->>>>>>> 4f39bbc64dd771004dcb3c50ce5ae4760d550693
     elsif Lvl = 2 then
 	Level2
     elsif Lvl = 3 then
