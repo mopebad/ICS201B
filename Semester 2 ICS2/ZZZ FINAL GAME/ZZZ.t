@@ -374,7 +374,7 @@ end loop
 
 %End Message
 cls
-if Lvl = 4 then
+if Lvl = 5 then
     put "CONGRATS YOU WIN!"
 elsif Life = 3 then
     put "YOU LOST!"
