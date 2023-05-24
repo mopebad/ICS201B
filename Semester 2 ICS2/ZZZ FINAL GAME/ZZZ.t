@@ -33,7 +33,7 @@ var mainmapcolor : int
 mainmapcolor := Pic.FileNew ("mainmapcolor.bmp")
 
 var room1 : int
-room1 := Pic.FileNew ("room1.bmp")
+room1 := Pic.FileNew ("room2.bmp")
 
 
 % Health System & Damage System
@@ -161,9 +161,9 @@ proc MOVEMENT
     %Teleportation
     if whatdotcolour (posx + 10, posy + 20) = green and chars (' ') then
 	%only active for space bar!
-	posx := 300
-	posy := 350
-	Lvl := room1
+	posx := 940
+	posy := 690
+	Lvl := Lvl + 1
     end if
 
     %Level up system!
@@ -224,7 +224,7 @@ end title
 
 process DoMusic
 loop
-Music.PlayFile ("TitleTrack.mp3")
+Music.PlayFile ("Music1.mp3")
 end loop
 end DoMusic
 
@@ -259,17 +259,17 @@ proc Level2
     View.Update
 end Level2
 
-proc Room1
+proc Level3
     cls
     Pic.Draw (room1, 0, 0, picCopy)
     MOVEMENT
     Pic.Draw (char1, posx ,posy, picMerge)
     View.Update
-end Room1
+end Level3
 
 
-%Level 2 procedure
-proc Level3
+
+proc Level4
     cls
     Pic.Draw (mainmap2, 0, 0, picCopy)
     MOVEMENT
@@ -280,7 +280,7 @@ proc Level3
     drawbox (1, 745, 100, 725, yellow)
     %(xStart,ystart,xEnd,yEnd)
     View.Update
-end Level3
+end Level4
 
 
 %Running the actual game!
@@ -309,6 +309,8 @@ loop
 	Level2
     elsif Lvl = 3 then
 	Level3
+    elsif Lvl = 4 then
+	Level4
     else
 	exit
 	%Exit if the player WINS
@@ -319,7 +321,7 @@ end loop
 
 %End Message
 cls
-if Lvl = 3 then
+if Lvl = 4 then
     put "CONGRATS YOU WIN!"
 elsif Life = 3 then
     put "YOU LOST!"
