@@ -33,11 +33,13 @@ var mainmapcolor : int
 mainmapcolor := Pic.FileNew ("mainmapcolor.bmp")
 
 var room2color : int
-room2color := Pic.FileNew ("room2color.bmp")
+room2color := Pic.FileNew ("Room2color.bmp")
 
 var room2main : int
-room2main := Pic.FileNew ("room2main.bmp")
+room2main := Pic.FileNew ("Room2main.bmp")
 
+var room1main : int 
+room1main := Pic.FileNew ("Room1main.bmp")
 
 % Health System & Damage System
 var HP, HP2, dmg, Heal : int
@@ -73,6 +75,15 @@ posyC4 := 700
 var posxC5, posyC5 : int
 posxC5 := 820
 posyC5 := 700
+var posxC6, posyC6 : int
+posxC6 := 740
+posyC6 := 730
+var posxC7, posyC7 : int
+posxC7 := 540
+posyC7 := 730
+var posxC8, posyC8 : int
+posxC8 := 340
+posyC8 := 730
 
 var velxC : int
 velxC := 15
@@ -84,6 +95,13 @@ var velyC4 : int
 velyC4 := 15
 var velyC5 : int
 velyC5 := 20
+var velyC6 : int
+velyC6 := 15
+var velyC7 : int
+velyC7 := 11
+var velyC8 : int
+velyC8 := 25
+
 
 %Procedure for moving enemies
 
@@ -121,6 +139,27 @@ proc MovingCircle5
 	velyC5 := -velyC5
     end if
 end MovingCircle5
+
+proc MovingCircle6
+    posyC6 := posyC6 + velyC6
+    if posyC6 >= 720 or posyC6 <= 20 then
+	velyC6 := -velyC6
+    end if
+end MovingCircle6
+
+proc MovingCircle7
+    posyC7 := posyC7 + velyC7
+    if posyC7 >= 720 or posyC7 <= 20 then
+	velyC7 := -velyC7
+    end if
+end MovingCircle7
+
+proc MovingCircle8
+    posyC8 := posyC8 + velyC8
+    if posyC8 >= 720 or posyC8 <= 20 then
+	velyC8 := -velyC8
+    end if
+end MovingCircle8
 
 
 
@@ -184,30 +223,22 @@ proc MOVEMENT
 	HP := HP
     end if
 
-    %Healing
-    if whatdotcolour (posx, posy) = green then
-	HP := HP + Heal
-    elsif whatdotcolour (posx + 20, posy) = green then
-	HP := HP + Heal
-    elsif whatdotcolour (posx + 20, posy + 40) = green then
-	HP := HP + Heal
-    elsif whatdotcolour (posx, posy + 40) = green then
-	HP := HP + Heal
-    else
-	HP := HP
-    end if
-
     if HP > 100 then
 	HP := 100
     end if
 
     %Room System
     if whatdotcolour (posx + 10, posy + 20) = green then
-	%only active for space bar!
 	posx := 940
 	posy := 660
-	Lvl := Lvl + 1
+	Lvl := 3
     end if
+    
+    if whatdotcolour (posx + 10, posy + 20) = blue then
+	posx := 940
+	posy := 660
+	Lvl := 5
+    end if 
 
     %Going back to main level
     if whatdotcolour (posx + 10, posy + 20) = yellow then
@@ -267,18 +298,7 @@ proc MOVEMENT2
 	HP2 := HP2
     end if
 
-    %Healing
-    if whatdotcolour (posx2, posy2) = green then
-	HP2 := HP2 + Heal
-    elsif whatdotcolour (posx2 + 60, posy2) = green then
-	HP2 := HP2 + Heal
-    elsif whatdotcolour (posx2 + 60, posy2 + 80) = green then
-	HP2 := HP2 + Heal
-    elsif whatdotcolour (posx2, posy2 + 80) = green then
-	HP2 := HP2 + Heal
-    else
-	HP2 := HP2
-    end if
+   
 
     if HP2 > 100 then
 	HP2 := 100
@@ -397,8 +417,29 @@ proc Level3
 end Level3
 
 
-
 proc Level5
+    cls
+    Pic.Draw (room1main, 0, 0, picCopy)
+    Draw.FillOval(posxC5, posyC5, 28, 43, red)
+    MovingCircle5
+    Draw.FillOval (posxC6, posyC6, 28, 43, red)
+    MovingCircle6
+    Draw.FillOval (posxC7, posyC7, 28, 43, red)
+    MovingCircle7
+    Draw.FillOval (posxC8, posyC8, 28, 43, red)
+    MovingCircle8
+    MOVEMENT
+    Pic.Draw (Circle, posxC5 - 30, posyC5 - 35, picMerge)
+    Pic.Draw (Circle, posxC6 - 30, posyC6 - 35, picMerge)
+    Pic.Draw (Circle, posxC7 - 30, posyC7 - 35, picMerge)
+    Pic.Draw (Circle, posxC8 - 30, posyC8 - 35, picMerge)
+    Pic.Draw (char1, posx, posy, picMerge)
+    drawfillbox (1, 720, HP2, 700, brightgreen)
+    drawbox (1, 720, 100, 700, yellow)
+    View.Update
+end Level5
+    
+proc Level6
     cls
     Pic.Draw (mainmap2, 0, 0, picCopy)
     MOVEMENT
@@ -411,7 +452,7 @@ proc Level5
     drawbox (1, 720, 100, 700, yellow)
     %(xStart,ystart,xEnd,yEnd)
     View.Update
-end Level5
+end Level6
 
 
 %Running the actual game!
@@ -453,6 +494,8 @@ loop
 	Level4
     elsif Lvl = 5 then
 	Level5
+    elsif Lvl = 6 then
+	Level6
     else
 	exit
 	%Exit if the player WINS
@@ -469,7 +512,7 @@ if Lvl = 5 then
 elsif Life = 3 then
     put "YOU LOST!"
 else 
-    put "Good game! (gg), thank you for playing!"
+    put "gg."
 end if
 
 
