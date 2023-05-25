@@ -334,7 +334,7 @@ proc Level2
     Draw.FillOval (posxC5, posyC5, 28, 43, red)
     MovingCircle5
     MOVEMENT
-    %Pic.Draw (mainmapcolor, 0, 0, picCopy)
+    Pic.Draw (mainmapcolor, 0, 0, picCopy)
     Pic.Draw (Circle, posxC - 30, posyC - 35, picMerge)
     Pic.Draw (Circle, posxC2 - 30, posyC2 - 35, picMerge)
     Pic.Draw (Circle, posxC3 - 30, posyC3 - 35, picMerge)
