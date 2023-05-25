@@ -41,6 +41,8 @@ room2main := Pic.FileNew ("Room2main.bmp")
 var room1main : int
 room1main := Pic.FileNew ("Room1main.bmp")
 
+var room1color : int
+room1color := Pic.FileNew ("Room1color.bmp")
 % Health System & Damage System
 var HP, HP2, dmg, Heal : int
 HP := 100
@@ -172,7 +174,7 @@ proc MovingCircle9
     if posyC9 >= 720 or posyC9 <= 20 then
 	velyC9 := -velyC9
     end if
-end MovingCircle8
+end MovingCircle9
 
 
 
@@ -269,6 +271,14 @@ proc MOVEMENT
 	posx := 870
 	posy := 63
     end if
+    
+    %Going back to the main map. 
+    
+    if whatdotcolour (posx + 10, posy + 20) = cyan then
+	posx := 112
+	posy := 546
+	Lvl := 4
+    end if    
 
 end MOVEMENT
 
@@ -343,7 +353,7 @@ end title
 
 process DoMusic
     loop
-	Music.PlayFile ("Music2.mp3")
+	%Music.PlayFile ("Music2.mp3")
     end loop
 end DoMusic
 
@@ -448,6 +458,7 @@ proc Level5
     Draw.FillOval (posxC8, posyC8, 28, 43, red)
     MovingCircle8
     MOVEMENT
+    Pic.Draw (room1color, 0, 0, picCopy)
     Pic.Draw (Circle, posxC6 - 30, posyC6 - 35, picMerge)
     Pic.Draw (Circle, posxC7 - 30, posyC7 - 35, picMerge)
     Pic.Draw (Circle, posxC8 - 30, posyC8 - 35, picMerge)
