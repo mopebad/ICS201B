@@ -45,19 +45,25 @@ var room1color : int
 room1color := Pic.FileNew ("Room1color.bmp")
 
 var Message : int
-Message := Pic.FileNew ("1234.bmp")
+Message := Pic.FileNew ("message.bmp")
+
+var Message2 : int
+Message2 := Pic.FileNew ("message2.bmp")
 
 var Key : int
 Key := Pic.FileNew ("key.bmp")
+
+var death : int
+death := Pic.FileNew ("death.bmp")
+
+var win : int
+win := Pic.FileNew ("win.bmp")
+
 % Health System & Damage System
-var HP, HP2, dmg, Heal : int
+var HP, dmg, Heal: int
 HP := 100
-HP2 := 100
-dmg := 12
-Heal := 5
-
-
-
+dmg := 8
+Heal := 100
 
 % Level Variable
 var Lvl : int
@@ -121,8 +127,12 @@ var velyC9 : int
 velyC9 := 35
 
 
+% Messages
 
 var showMessage : boolean
+showMessage := false
+
+var showMessage2 : boolean
 showMessage := false
 
 %Procedure for moving enemies
@@ -214,12 +224,15 @@ proc MOVEMENT
     %left and right
     if chars (KEY_RIGHT_ARROW) and whatdotcolour (posx + 67, posy) not= black
 	    and whatdotcolour (posx + 67, posy + 80) not= black
+	    and whatdotcolour (posx + 67, posy + 40) not= black
 	    and posx < (maxx - 57) then
 	%use 'a' for the a key instead
 	velx := 10
     elsif chars (KEY_LEFT_ARROW) and whatdotcolour (posx - 10, posy) not= black
 	    and whatdotcolour (posx - 10, posy + 80) not= black
+	    and whatdotcolour (posx - 10, posy + 40) not= black
 	    and posx > 0 then
+	    
 	velx := -10
     else
 	velx := 0
@@ -268,6 +281,12 @@ proc MOVEMENT
 	showMessage := true
     else
 	showMessage := false
+    end if
+    
+    if whatdotcolour (posx + 10, posy + 20) = grey then 
+	showMessage2 := true
+    else 
+	showMessage2 := false
     end if
     
     if whatdotcolour (posx + 10, posy + 20) = brown then
@@ -345,15 +364,15 @@ proc MOVEMENT2
 
     %Damage system!
     if whatdotcolour (posx2 + 30, posy2 + 40) = red then
-	HP2 := HP2 - dmg
+	HP := HP - dmg
     else
-	HP2 := HP2
+	HP := HP
     end if
 
 
 
-    if HP2 > 100 then
-	HP2 := 100
+    if HP > 100 then
+	HP := 100
     end if
 
 end MOVEMENT2
@@ -425,6 +444,7 @@ end Level2
 
 proc Level4 % Back to the mainmap after going into the room
     cls
+    
     Pic.Draw (mainmap, 0, 0, picCopy)
     Draw.FillOval (posxC2, posyC2, 25, 35, red)
     MovingCircle2
@@ -448,8 +468,7 @@ proc Level4 % Back to the mainmap after going into the room
     Pic.Draw (char2, posx2, posy2, picMerge)
     drawfillbox (1, 745, HP, 725, brightgreen)
     drawbox (1, 745, 100, 725, yellow)
-    drawfillbox (1, 720, HP2, 700, brightgreen)
-    drawbox (1, 720, 100, 700, yellow)
+
     %(xStart,ystart,xEnd,yEnd)
     View.Update
 end Level4
@@ -464,8 +483,7 @@ proc Level3
     Pic.Draw (char1, posx, posy, picMerge)
     Pic.Draw (char2, posx2, posy2, picMerge)
     View.Update
-    drawfillbox (1, 720, HP2, 700, brightgreen)
-    drawbox (1, 720, 100, 700, yellow)
+
     drawfillbox (1, 745, HP, 725, brightgreen)
     drawbox (1, 745, 100, 725, yellow)
 end Level3
@@ -492,6 +510,10 @@ proc Level5
     if hasKey = false then
       Pic.Draw (Key, 940, 45, picMerge)
     end if 
+    if showMessage2 then
+    drawfillbox(0, 750, 1000, 650, white)
+    Pic.Draw(Message2, 192, 650, picMerge)
+    end if
     drawfillbox (1, 745, HP, 725, brightgreen)
     drawbox (1, 745, 100, 725, yellow)
     View.Update
@@ -506,21 +528,28 @@ proc Level6
     Pic.Draw (char2, posx2, posy2, picMerge)
     drawfillbox (1, 745, HP, 725, brightgreen)
     drawbox (1, 745, 100, 725, yellow)
-    drawfillbox (1, 720, HP2, 700, brightgreen)
-    drawbox (1, 720, 100, 700, yellow)
+    
     %(xStart,ystart,xEnd,yEnd)
     View.Update
 end Level6
 
+proc endscreen
+    cls 
+    Pic.Draw (win, 0, 0, picCopy)
+    View.Update
+end endscreen
+
+proc deathscreen
+    cls
+    Pic.Draw (death, 0, 0, picCopy)
+    View.Update
+end deathscreen
 
 %Running the actual game!
 loop
     Input.KeyDown (chars)
     %Allows input to come from keys being pressed down
-    if chars ('g') then
-	exit
-	%exit if the player wants to
-    end if
+    
     if HP < 1 then
 	Lvl := 2
 	hasKey := false
@@ -529,18 +558,11 @@ loop
 	HP := 100
 	Life := Life + 1
     end if
-    if Life = 3 then
-	exit
+    if Life = 4 then
+	deathscreen
     end if
-    if HP2 < 1 then
-	posx2 := 30
-	posy2 := 30
-	HP2 := 100
-	Life := Life + 1
-	if Life = 3 then
-	    exit
-	end if
-    end if
+    
+   
 
     %exit if the playzer DIES
 
@@ -556,24 +578,15 @@ loop
 	Level5
     elsif Lvl = 6 then
 	Level6
-    else
-	exit
+    elsif Lvl = 7 then
+	endscreen
+   
 	%Exit if the player WINS
     end if
     delay (50)
     %"fps" of 50
 end loop
 
-
-%End Message
-cls
-if Lvl = 5 then
-    put "CONGRATS YOU WIN!"
-elsif Life = 3 then
-    put "YOU LOST!"
-else
-    put "gg."
-end if
 
 
 
