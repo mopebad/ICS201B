@@ -542,7 +542,7 @@ loop
 	end if
     end if
 
-    %exit if the player DIES
+    %exit if the playzer DIES
 
     if Lvl = 1 then
 	Level1
