@@ -43,12 +43,17 @@ room1main := Pic.FileNew ("Room1main.bmp")
 
 var room1color : int
 room1color := Pic.FileNew ("Room1color.bmp")
+
+var Message : int
+Message := Pic.FileNew ("1234.bmp")
 % Health System & Damage System
 var HP, HP2, dmg, Heal : int
 HP := 100
 HP2 := 100
 dmg := 12
 Heal := 5
+
+
 
 
 % Level Variable
@@ -59,6 +64,9 @@ Lvl := 1
 var Life : int
 Life := 0
 
+% Key Variable
+var hasKey : boolean
+hasKey := false
 
 
 %Variable for MOVING thing
@@ -110,6 +118,9 @@ var velyC9 : int
 velyC9 := 35
 
 
+
+var showMessage : boolean
+showMessage := false
 
 %Procedure for moving enemies
 
@@ -242,14 +253,25 @@ proc MOVEMENT
 	HP := 100
     end if
 
-    %Room System
-    if whatdotcolour (posx + 10, posy + 20) = green then
+  
+   %Room System
+  if whatdotcolour (posx + 10, posy + 20) = green and hasKey and Lvl = 2 then
 	posx := 940
 	posy := 660
 	Lvl := 3
     end if
+    
+    if whatdotcolour (posx + 10, posy + 20) = green and not hasKey then
+	showMessage := true
+    else
+	showMessage := false
+    end if
+    
+    if whatdotcolour (posx + 10, posy + 20) = brown then
+    hasKey := true
+end if
 
-    if whatdotcolour (posx + 10, posy + 20) = blue then
+    if whatdotcolour (posx + 10, posy + 20) = blue and Lvl = 2 then
 	posx := 940
 	posy := 660
 	Lvl := 5
@@ -257,28 +279,26 @@ proc MOVEMENT
 
     %Going back to main level
     if whatdotcolour (posx + 10, posy + 20) = yellow then
-	%only active for space bar!
+	
 	posx := 580
 	posy := 594
-	posx2 := 640
-	posy2 := 630
-	Lvl := Lvl + 1
+	Lvl := 4
     end if
 
     %Teleport to the exit
 
     if whatdotcolor (posx + 10, posy + 20) = purple then
-	posx := 870
-	posy := 63
+	posx := 810
+	posy := 30
     end if
-    
-    %Going back to the main map. 
-    
+
+    %Going back to the main map.
+
     if whatdotcolour (posx + 10, posy + 20) = cyan then
-	posx := 112
-	posy := 546
-	Lvl := 4
-    end if    
+	posx := 150
+	posy := 525
+	Lvl := 2
+    end if
 
 end MOVEMENT
 
@@ -353,7 +373,7 @@ end title
 
 process DoMusic
     loop
-	%Music.PlayFile ("Music2.mp3")
+	Music.PlayFile ("BGMUSIC.mp3")
     end loop
 end DoMusic
 
@@ -392,8 +412,10 @@ proc Level2
     Pic.Draw (char1, posx, posy, picMerge)
     drawfillbox (1, 745, HP, 725, brightgreen)
     drawbox (1, 745, 100, 725, yellow)
-    drawfillbox (1, 720, HP2, 700, brightgreen)
-    drawbox (1, 720, 100, 700, yellow)
+    if showMessage then
+    drawfillbox(0, 0, 1000, 100, white)
+    Pic.Draw(Message, 160, -5, picMerge)
+    end if
     %(xStart,ystart,xEnd,yEnd)
     View.Update
 end Level2
@@ -458,7 +480,7 @@ proc Level5
     Draw.FillOval (posxC8, posyC8, 28, 43, red)
     MovingCircle8
     MOVEMENT
-    Pic.Draw (room1color, 0, 0, picCopy)
+    %Pic.Draw (room1color, 0, 0, picCopy)
     Pic.Draw (Circle, posxC6 - 30, posyC6 - 35, picMerge)
     Pic.Draw (Circle, posxC7 - 30, posyC7 - 35, picMerge)
     Pic.Draw (Circle, posxC8 - 30, posyC8 - 35, picMerge)
@@ -494,6 +516,7 @@ loop
 	%exit if the player wants to
     end if
     if HP < 1 then
+	Lvl := 2
 	posx := 30
 	posy := 30
 	HP := 100
