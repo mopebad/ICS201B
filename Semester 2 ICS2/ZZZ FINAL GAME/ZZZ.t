@@ -480,7 +480,7 @@ proc Level5
     Draw.FillOval (posxC8, posyC8, 28, 43, red)
     MovingCircle8
     MOVEMENT
-    %Pic.Draw (room1color, 0, 0, picCopy)
+    Pic.Draw (room1color, 0, 0, picCopy)
     Pic.Draw (Circle, posxC6 - 30, posyC6 - 35, picMerge)
     Pic.Draw (Circle, posxC7 - 30, posyC7 - 35, picMerge)
     Pic.Draw (Circle, posxC8 - 30, posyC8 - 35, picMerge)
