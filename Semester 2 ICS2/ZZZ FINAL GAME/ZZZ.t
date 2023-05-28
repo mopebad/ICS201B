@@ -7,6 +7,9 @@ colorback (white)
 color (black)
 View.Update
 
+% Chars
+var chars : array char of boolean
+
 % Inserting Map & Character
 var maptitle : int
 maptitle := Pic.FileNew ("press space to continue.bmp")
@@ -59,6 +62,10 @@ death := Pic.FileNew ("death.bmp")
 var win : int
 win := Pic.FileNew ("win.bmp")
 
+
+
+
+
 % Health System & Damage System
 var HP, dmg, Heal: int
 HP := 100
@@ -69,13 +76,11 @@ Heal := 100
 var Lvl : int
 Lvl := 1
 
-% Life Counter
-var Life : int
-Life := 0
-
 % Key Variable
 var hasKey : boolean
 hasKey := false
+
+
 
 
 %Variable for MOVING thing
@@ -202,9 +207,7 @@ end MovingCircle9
 
 
 
-% Movement & Position (chars = characters)
-var chars : array char of boolean
-
+% Movement & Position 
 var posx, posy, posx2, posy2, posx2b, posy2b : int
 posx := 10
 posy := 610
@@ -217,6 +220,31 @@ velx := 0
 vely := 0
 velx2 := 0
 vely2 := 0
+
+
+
+
+proc restart
+    HP := 100  % Reset the player's health
+    Lvl := 1   % Reset the level
+    hasKey := false   % Reset the key status
+    posx := 10   % Reset the player's position
+    posy := 610
+    
+    View.Update
+end restart
+
+% Deathscreen
+
+proc deathscreen
+    cls
+    Pic.Draw(death, 0, 0, picCopy)
+    if chars (KEY_ENTER) then
+	restart
+    end if
+    View.Update
+ 
+end deathscreen
 
 %Movement procedure 60 x80
 proc MOVEMENT
@@ -259,7 +287,7 @@ proc MOVEMENT
     posx := posx + round (velx)
 
     %Damage system!
-    if whatdotcolour (posx + 10, posy + 20) = red then
+    if whatdotcolour (posx + 30, posy + 40) = red then
 	HP := HP - dmg
     else
 	HP := HP
@@ -321,6 +349,10 @@ end if
 	posy := 525
 	Lvl := 2
     end if
+    
+    if HP <= 0 then
+    deathscreen
+end if
 
 end MOVEMENT
 
@@ -374,7 +406,11 @@ proc MOVEMENT2
     if HP > 100 then
 	HP := 100
     end if
-
+    
+   
+     if HP <= 0 then
+    deathscreen
+end if
 end MOVEMENT2
 
 
@@ -439,7 +475,13 @@ proc Level2
     Pic.Draw(Message, 160, -5, picMerge)
     end if
     %(xStart,ystart,xEnd,yEnd)
+    
+    if HP <= 0 then
+    deathscreen
+end if
+
     View.Update
+    
 end Level2
 
 proc Level4 % Back to the mainmap after going into the room
@@ -470,6 +512,9 @@ proc Level4 % Back to the mainmap after going into the room
     drawbox (1, 745, 100, 725, yellow)
 
     %(xStart,ystart,xEnd,yEnd)
+      if HP <= 0 then
+    deathscreen
+end if
     View.Update
 end Level4
 
@@ -486,6 +531,10 @@ proc Level3
 
     drawfillbox (1, 745, HP, 725, brightgreen)
     drawbox (1, 745, 100, 725, yellow)
+      if HP <= 0 then
+    deathscreen
+end if
+    View.Update
 end Level3
 
 
@@ -516,6 +565,9 @@ proc Level5
     end if
     drawfillbox (1, 745, HP, 725, brightgreen)
     drawbox (1, 745, 100, 725, yellow)
+      if HP <= 0 then
+    deathscreen
+end if
     View.Update
 end Level5
 
@@ -539,30 +591,15 @@ proc endscreen
     View.Update
 end endscreen
 
-proc deathscreen
-    cls
-    Pic.Draw (death, 0, 0, picCopy)
-    View.Update
-end deathscreen
+
+
 
 %Running the actual game!
 loop
     Input.KeyDown (chars)
     %Allows input to come from keys being pressed down
     
-    if HP < 1 then
-	Lvl := 2
-	hasKey := false
-	posx := 30
-	posy := 30
-	HP := 100
-	Life := Life + 1
-    end if
-    if Life = 4 then
-	deathscreen
-    end if
-    
-   
+
 
     %exit if the playzer DIES
 
