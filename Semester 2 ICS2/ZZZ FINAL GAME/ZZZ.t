@@ -46,6 +46,9 @@ room1color := Pic.FileNew ("Room1color.bmp")
 
 var Message : int
 Message := Pic.FileNew ("1234.bmp")
+
+var Key : int
+Key := Pic.FileNew ("key.bmp")
 % Health System & Damage System
 var HP, HP2, dmg, Heal : int
 HP := 100
@@ -288,7 +291,7 @@ end if
     %Teleport to the exit
 
     if whatdotcolor (posx + 10, posy + 20) = purple then
-	posx := 810
+	posx := 830
 	posy := 30
     end if
 
@@ -486,6 +489,9 @@ proc Level5
     Pic.Draw (Circle, posxC8 - 30, posyC8 - 35, picMerge)
     Pic.Draw (Circle, posxC9 - 30, posyC9 - 35, picMerge)
     Pic.Draw (char1, posx, posy, picMerge)
+    if hasKey = false then
+      Pic.Draw (Key, 940, 45, picMerge)
+    end if 
     drawfillbox (1, 745, HP, 725, brightgreen)
     drawbox (1, 745, 100, 725, yellow)
     View.Update
