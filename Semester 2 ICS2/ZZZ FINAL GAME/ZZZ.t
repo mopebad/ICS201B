@@ -523,6 +523,7 @@ loop
     end if
     if HP < 1 then
 	Lvl := 2
+	hasKey := false
 	posx := 30
 	posy := 30
 	HP := 100
