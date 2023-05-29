@@ -556,7 +556,7 @@ end title
 
 process DoMusic
     loop
-	Music.PlayFile ("BGMUSIC.mp3")
+	Music.PlayFile ("BGMUSIC2.mp3")
     end loop
 end DoMusic
 
