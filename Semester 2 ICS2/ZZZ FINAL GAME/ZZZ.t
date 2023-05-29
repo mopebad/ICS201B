@@ -26,8 +26,11 @@ char3 := Pic.FileNew ("nightmangoon.bmp")
 var mainmap : int
 mainmap := Pic.FileNew ("mainmap.bmp")
 
-var mainmap2 : int
-mainmap2 := Pic.FileNew ("mainmap2.bmp")
+var endmap : int
+endmap := Pic.FileNew ("endmap.bmp")
+
+var endmapcolor : int
+endmapcolor := Pic.FileNew ("endmapcolor.bmp")
 
 var Circle : int
 Circle := Pic.FileNew ("nightmangoon.bmp")
@@ -293,11 +296,17 @@ proc MOVEMENT
 	HP := HP
     end if
 
+
+    % Heal System! 
+    if whatdotcolour (posx + 30, posy + 40) = brightpurple then
+	HP := HP + Heal
+    else 
+	HP := HP
+    end if
+    
     if HP > 100 then
 	HP := 100
     end if
-
-  
    %Room System
   if whatdotcolour (posx + 10, posy + 20) = green and hasKey and Lvl = 2 then
 	posx := 940
@@ -353,7 +362,15 @@ end if
     if HP <= 0 then
     deathscreen
 end if
-
+    
+    % Stairs
+    
+    if whatdotcolour (posx + 10, posy + 20) = brightblue and Lvl = 4 then
+	posx := 60
+	posy := 320
+	Lvl := 6
+    end if
+    
 end MOVEMENT
 
 proc MOVEMENT2
@@ -401,16 +418,31 @@ proc MOVEMENT2
 	HP := HP
     end if
 
-
-
+ % Heal System! 
+    if whatdotcolour (posx + 30, posy + 40) = brightpurple then
+	HP := HP + Heal
+    else 
+	HP := HP
+    end if
+    
     if HP > 100 then
 	HP := 100
     end if
-    
    
      if HP <= 0 then
     deathscreen
 end if
+
+    % Stairs
+    
+    if whatdotcolour (posx + 10, posy + 20) = brightblue and Lvl = 4 then
+	posx := 60
+	posy := 320
+	posx2 := 30
+	posy2 := 360
+	Lvl := 6
+    end if
+    
 end MOVEMENT2
 
 
@@ -573,9 +605,10 @@ end Level5
 
 proc Level6
     cls
-    Pic.Draw (mainmap2, 0, 0, picCopy)
+    Pic.Draw (endmap, 0, 0, picCopy)
     MOVEMENT
     MOVEMENT2
+    Pic.Draw (endmapcolor, 0, 0, picCopy)
     Pic.Draw (char1, posx, posy, picMerge)
     Pic.Draw (char2, posx2, posy2, picMerge)
     drawfillbox (1, 745, HP, 725, brightgreen)
