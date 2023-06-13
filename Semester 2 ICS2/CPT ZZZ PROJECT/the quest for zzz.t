@@ -55,11 +55,17 @@ Life := 0
 proc MOVEMENT
     %left and right
     if chars (KEY_RIGHT_ARROW) and whatdotcolour (posx + 45, posy) not= black
+		and whatdotcolour (posx + 45, posy + 10) not= black
+		and whatdotcolour (posx + 45, posy + 20) not= black
+		and whatdotcolour (posx + 45, posy + 30) not= black
 	    and whatdotcolour (posx + 45, posy + 40) not= black
 	    and posx < 980 then
 	%use 'a' for the a key instead
 	velx := 10
-    elsif chars (KEY_LEFT_ARROW) and whatdotcolour (posx - 10, posy) not= black
+    elsif chars (KEY_LEFT_ARROW) and whatdotcolour (posx - 10, posy) not= black 
+       and whatdotcolour (posx - 10, posy + 20) not= black
+	and whatdotcolour (posx - 10, posy + 30) not= black
+	 and whatdotcolour (posx - 10, posy + 10) not= black
 	    and whatdotcolour (posx - 10, posy + 40) not= black
 	    and posx > 0 then
 	velx := -10
@@ -68,21 +74,22 @@ proc MOVEMENT
     end if
 
     %up  and down
-    if chars (KEY_UP_ARROW) and (whatdotcolour (posx, posy - 10) = black
-	    or whatdotcolour (posx + 20, posy - 10) = black
-	    or posy = 0) then
-
-	vely := 18
-    end if
-
-    if chars (KEY_UP_ARROW) and (whatdotcolour (posx + 30, posy) = black
-	    or whatdotcolour (posx + 30, posy + 40) = black
-	    or whatdotcolour (posx - 10, posy) = black
-	    or whatdotcolour (posx - 10, posy + 40) = black) then
-
-	vely := 10
-	gravity := 1
-    end if
+    if chars (KEY_UP_ARROW)    and (whatdotcolour(posx,posy-10) = black
+			       or whatdotcolour(posx+35,posy-10) = black 
+			       or posy = 0) then
+			       
+	vely:=17
+    end if 
+    
+    if chars (KEY_UP_ARROW)    and (whatdotcolour(posx+45,posy) = black
+			       or whatdotcolour(posx+45,posy+40) = black 
+			       or whatdotcolour(posx-10,posy) = black
+			       or whatdotcolour(posx-10,posy+40) = black) then
+			       
+     
+	gravity:=1
+    end if    
+    
 
 
     vely := vely - gravity
@@ -101,8 +108,8 @@ proc MOVEMENT
     end if
 
     %Adding the ceiling
-    if whatdotcolour (posx, posy + 45) = black
-	    or whatdotcolour (posx + 20, posy + 45) = black
+    if whatdotcolour (posx, posy + 50) = black
+	    or whatdotcolour (posx + 35, posy + 50) = black
 	    or posy > 710 then
 	vely := -1
     end if
@@ -137,13 +144,18 @@ proc MOVEMENT
 	HP := 100
     end if
 
-    %Next Level
+    %Teleport
     if whatdotcolour (posx + 16, posy + 20) = blue then
+	posx := 21
+	posy := 479
+    end if
+    
+    %Level up
+    if whatdotcolour (posx + 16, posy + 20) = cyan then
+	Lvl := Lvl + 1 
 	posx := 100
 	posy := 100
-	Lvl := 2
-
-    end if
+    end if 
 
 
 
