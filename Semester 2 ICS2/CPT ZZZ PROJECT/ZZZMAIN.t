@@ -15,12 +15,31 @@ type Vector2:
 var Lvl : int
 Lvl :=1
 
+
+
+%Variable for platform
+var posxC, posyC : int
+posxC := 220
+posyC := 160
+
+var velxC : int
+velxC := 15
+
+proc Movingplatform
+    posxC := posxC + velxC
+    if posxC >= 728 or posxC <= 0 then
+	velxC := -velxC
+    end if
+end Movingplatform
+
 % Importing maps and others
 var map1 : int := Pic.FileNew("lvl1.bmp")
 
 var map2 : int := Pic.FileNew("lvl2.bmp")
 
 var map3 : int := Pic.FileNew("lvl3.bmp")
+
+var char1 : int := Pic.FileNew("mopebad.bmp")
 
 
 var Message : int := Pic.FileNew ("message.bmp")
@@ -71,8 +90,9 @@ fillbox(0, 0, 0, 0, RGB.AddColor(0.01, 0.01, 0.01))
 proc MOVEMENT 
 
     % Move dependent of collision with level and what keys are down
+
     if (isTouchingGround) then
-	if (keys('w') and ~preKeys('w')) then
+	if (keys(' ') and ~preKeys(' ')) then
 	    vel.y += 16
 	end if
     
@@ -84,7 +104,7 @@ proc MOVEMENT
 	end if
     else
 	if (isTouchingWall) then
-	    if (keys('w') and ~preKeys('w')) then
+	    if (keys(' ') and ~preKeys(' ')) then
 		vel.y += 16
 		vel.x += 7 * wallDir
 	    end if
@@ -245,6 +265,16 @@ end if
     cam.y := 0
 end if
 
+if (whatdotcolour(round(pos.x + vel.x + size.x + cam.x), round(pos.y - size.y + cam.y)) = green
+ or whatdotcolour(round(pos.x + vel.x + size.x + cam.x), round(pos.y + size.y + cam.y)) = green) and Lvl = 2 then
+  Lvl := Lvl + 1 
+  
+    pos.x := 43
+    pos.y := 283
+    cam.x := 0
+    cam.y := 0
+end if
+
 
  %Death system!
     if (whatdotcolour(round(pos.x + vel.x + size.x + cam.x), round(pos.y - size.y + cam.y)) = brightred
@@ -258,6 +288,14 @@ end if
     if (whatdotcolour(round(pos.x + vel.x + size.x + cam.x), round(pos.y - size.y + cam.y)) = brightred
  or whatdotcolour(round(pos.x + vel.x + size.x + cam.x), round(pos.y + size.y + cam.y)) = brightred) and Lvl = 2 then
    Lvl := 2
+    pos.x := 56
+    pos.y := 250
+    cam.x := 0
+    cam.y := 0
+    end if
+    if (whatdotcolour(round(pos.x + vel.x + size.x + cam.x), round(pos.y - size.y + cam.y)) = brightred
+ or whatdotcolour(round(pos.x + vel.x + size.x + cam.x), round(pos.y + size.y + cam.y)) = brightred) and Lvl = 3 then
+   Lvl := 3
     pos.x := 56
     pos.y := 250
     cam.x := 0
@@ -289,7 +327,6 @@ proc Level2
     Pic.Draw(map2, round(cam.x), round(cam.y), picCopy)
     % Draws player
     fillbox(pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, cyan)
-   
     MOVEMENT
     View.Update
 end Level2
@@ -299,8 +336,9 @@ proc Level3
     Pic.Draw(map3, round(cam.x), round(cam.y), picCopy)
     % Draws player
     fillbox(pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, cyan)
-   
+    
     MOVEMENT
+    
     View.Update
 end Level3
 
