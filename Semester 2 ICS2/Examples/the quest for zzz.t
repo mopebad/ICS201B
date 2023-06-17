@@ -86,8 +86,8 @@ proc MOVEMENT
 			       or whatdotcolour(posx-10,posy) = black
 			       or whatdotcolour(posx-10,posy+40) = black) then
 			       
-     
-	gravity:=1
+	
+	gravity:=3
     end if    
     
 
@@ -102,7 +102,7 @@ proc MOVEMENT
 	    or posy < 0 then
 	gravity := 0
 	vely := 0
-	posy := posy + 1 %prevents player from sinking into the ground!
+	posy := posy + 1%prevents player from sinking into the ground!
     else
 	gravity := 1
     end if
@@ -110,15 +110,11 @@ proc MOVEMENT
     %Adding the ceiling
     if whatdotcolour (posx, posy + 50) = black
 	    or whatdotcolour (posx + 35, posy + 50) = black
-	    or posy > 710 then
+	    or posy > 700 then
 	vely := -1
     end if
 
-    %Falling Velocity - Limit
-    if vely < -10 then
-	vely := -10
-	HP := HP - 1 %Fall Dmg
-    end if
+
 
     %Damage system!
     if whatdotcolour (posx + 10, posy + 20) = red then
@@ -166,6 +162,9 @@ proc Level1
     Pic.Draw (map, 0, 0, picCopy)
     MOVEMENT
     Pic.Draw (char1, posx, posy, picMerge)
+    drawfillbox(1,745,HP,725,brightgreen)
+    drawbox(1,745,100,725,yellow)
+    %(xStart,ystart,xEnd,yEnd)
     View.Update
 end Level1
 
