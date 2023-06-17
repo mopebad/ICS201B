@@ -15,9 +15,16 @@ type Vector2:
 var Lvl : int
 Lvl :=1
 
-% Importing maps
+% Importing maps and others
 var map1 : int := Pic.FileNew("lvl1.bmp")
-var map2 : int := Pic.FileNew("lvl3.bmp")
+
+var map2 : int := Pic.FileNew("lvl2.bmp")
+
+var map3 : int := Pic.FileNew("lvl3.bmp")
+
+
+var Message : int := Pic.FileNew ("message.bmp")
+
 % Holds key data
 var keys : array char of boolean
 var preKeys : array char of boolean
@@ -36,28 +43,37 @@ cam.x := 0; cam.y := 0
 
 % Size of the player
 var size : Vector2
-size.x := 30; size.y := 30
+size.x := 22; size.y := 22
 
 % Collision booleans and directions
 var isTouchingGround : boolean := false
 var isTouchingWall : boolean := false
 var wallDir : int := 0
 
-% I was previously drawing lots of fillBoxes, and did not like writing round() all the time
+% Player
 proc fillbox (x : real, y : real, x2 : real, y2 : real, c : int)
     Draw.FillBox(round(x + cam.x), round(y + cam.y), round(x2 + cam.x), round(y2 + cam.y), c)
 end fillbox
 
-% Draws a nonexistent, nearly black box, making whatdotcolour precise enough to make secret tunnels
+% Draws a nonexistent box for the outside of the map.
 colourback(black)
 fillbox(0, 0, 0, 0, RGB.AddColor(0.01, 0.01, 0.01))
+
+% Music
+%process DoMusic
+   % loop
+       % Music.PlayFile ("Music2.mp3")
+   % end loop
+%end DoMusic
+
+%fork DoMusic
 
 proc MOVEMENT 
 
     % Move dependent of collision with level and what keys are down
     if (isTouchingGround) then
 	if (keys('w') and ~preKeys('w')) then
-	    vel.y += 15
+	    vel.y += 16
 	end if
     
 	if (keys('a')) then
@@ -69,8 +85,8 @@ proc MOVEMENT
     else
 	if (isTouchingWall) then
 	    if (keys('w') and ~preKeys('w')) then
-		vel.y += 15
-		vel.x += 5 * wallDir
+		vel.y += 16
+		vel.x += 7 * wallDir
 	    end if
 	end if
     
@@ -177,7 +193,7 @@ proc MOVEMENT
     
     % Move downward to simulate gravity, less when against a wall
     if (isTouchingWall and vel.y < 0) then
-	vel.y -= 9.8 / 40
+	vel.y -= 9.8 / 43
     else
 	vel.y -= 9.8 / 10
     end if
@@ -232,14 +248,24 @@ end if
 
  %Death system!
     if (whatdotcolour(round(pos.x + vel.x + size.x + cam.x), round(pos.y - size.y + cam.y)) = brightred
- or whatdotcolour(round(pos.x + vel.x + size.x + cam.x), round(pos.y + size.y + cam.y)) = brightred) then
+ or whatdotcolour(round(pos.x + vel.x + size.x + cam.x), round(pos.y + size.y + cam.y)) = brightred) and Lvl = 1 then
+   Lvl := 1
     pos.x := 40
     pos.y := 120
     cam.x := 0
     cam.y := 0
     end if
-    
-    % Delays
+    if (whatdotcolour(round(pos.x + vel.x + size.x + cam.x), round(pos.y - size.y + cam.y)) = brightred
+ or whatdotcolour(round(pos.x + vel.x + size.x + cam.x), round(pos.y + size.y + cam.y)) = brightred) and Lvl = 2 then
+   Lvl := 2
+    pos.x := 56
+    pos.y := 250
+    cam.x := 0
+    cam.y := 0
+    end if
+ 
+
+% Delays
     Time.DelaySinceLast(17)
 Window.Update(winID)
 
@@ -248,15 +274,13 @@ end MOVEMENT
 
 proc Level1
     cls
-    
-    % Draws background
     Pic.Draw(map1, round(cam.x), round(cam.y), picCopy)
-    
-    
-    % Draws player
     fillbox(pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, cyan)
-   
     MOVEMENT
+    if Lvl = 1 then
+    drawfillbox(0, 0, 1000, 100, white)
+    Pic.Draw(Message, 160, -5, picMerge)
+    end if
     View.Update
 end Level1
 
@@ -270,6 +294,18 @@ proc Level2
     View.Update
 end Level2
 
+proc Level3
+    cls
+    Pic.Draw(map3, round(cam.x), round(cam.y), picCopy)
+    % Draws player
+    fillbox(pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, cyan)
+   
+    MOVEMENT
+    View.Update
+end Level3
+
+
+
 loop
 % Get keyboard state
     Input.KeyDown(keys)
@@ -280,6 +316,8 @@ loop
 	Level1
     elsif Lvl = 2 then
 	Level2
+    elsif Lvl = 3 then
+	Level3
     end if
 end loop
 
