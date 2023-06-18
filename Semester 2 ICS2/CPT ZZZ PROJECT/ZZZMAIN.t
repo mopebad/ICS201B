@@ -32,6 +32,10 @@ var titlemain : int := Pic.FileNew ("TITLE1.bmp")
 
 var end1 : int := Pic.FileNew ("END1.bmp")
 
+var map3color : int := Pic.FileNew ("lvl3colour.bmp")
+
+var map4color : int := Pic.FileNew ("lvl4colour.bmp")
+
 var Message : int := Pic.FileNew ("message.bmp")
 
 % Holds key data
@@ -74,14 +78,14 @@ colourback (black)
 fillbox (0, 0, 0, 0, RGB.AddColor (0.01, 0.01, 0.01))
 
 
-%process DoMusic
-%loop
-% Music.PlayFile ("Music2.mp3")
-%end loop
-%end DoMusic
+process DoMusic
+loop
+ Music.PlayFile ("Music2.mp3")
+end loop
+end DoMusic
 
-%fork DoMusic
-%proc MOVEMENT
+fork DoMusic
+
 
 % Move dependent of collision with level and what keys are down
 proc MOVEMENT
@@ -439,10 +443,11 @@ end Level3
 proc Level4
     cls
     Pic.Draw (map3, round (cam.x), round (cam.y), picCopy)
-    % Draws player
+    MOVEMENT
+    Pic.Draw (map3color, round (cam.x), round (cam.y), picCopy)
     fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, brightpurple)
 
-    MOVEMENT
+    
 
     View.Update
 end Level4
@@ -450,11 +455,9 @@ end Level4
 proc Level5
     cls
     Pic.Draw (map4, round (cam.x), round (cam.y), picCopy)
-    % Draws player
-    fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, brightpurple)
-
     MOVEMENT
-
+    Pic.Draw (map4color, round (cam.x), round (cam.y), picCopy)
+    fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, brightpurple)
     View.Update
 end Level5
 
