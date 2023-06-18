@@ -41,6 +41,10 @@ var map3 : int := Pic.FileNew ("lvl3.bmp")
 
 var map4 : int := Pic.FileNew ("lvl4v2.bmp")
 
+var map1color : int := Pic.FileNew ("lvl1colour.bmp")
+
+var map2color : int := Pic.FileNew ("lvl2colour.bmp")
+
 var char1 : int := Pic.FileNew ("mopebad.bmp")
 
 
@@ -398,8 +402,9 @@ end MOVEMENT
 proc Level1
     cls
     Pic.Draw (map1, round (cam.x), round (cam.y), picCopy)
-    fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, cyan)
     MOVEMENT
+    Pic.Draw (map1color, round (cam.x), round (cam.y), picCopy)
+     fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, cyan)
     if Lvl = 1 then
 	drawfillbox (0, 0, 200, 750, white)
 	Pic.Draw (Message, 0, -50, picMerge)
