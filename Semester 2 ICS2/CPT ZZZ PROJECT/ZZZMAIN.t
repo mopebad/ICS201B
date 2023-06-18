@@ -423,7 +423,7 @@ proc Level2
     MOVEMENT
     Pic.Draw (map1color, round (cam.x), round (cam.y), picCopy)
     fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, brightpurple)
-    if Lvl = 1 then
+    if Lvl = 2 then
 	drawfillbox (0, 0, 200, 750, white)
 	Pic.Draw (Message, 0, -50, picMerge)
     end if
