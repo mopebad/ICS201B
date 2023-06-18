@@ -1,5 +1,3 @@
-% 30 by 120
-
 % ZZZQUEST
 
 % Sets up window
@@ -14,23 +12,6 @@ type Vector2 :
 
 var Lvl : int
 Lvl := 1
-
-
-
-%Variable for platform
-var posxC, posyC : int
-posxC := 220
-posyC := 160
-
-var velxC : int
-velxC := 15
-
-proc Movingplatform
-    posxC := posxC + velxC
-    if posxC >= 728 or posxC <= 0 then
-	velxC := -velxC
-    end if
-end Movingplatform
 
 % Importing maps and others
 var map1 : int := Pic.FileNew ("lvl1.bmp")
@@ -47,6 +28,9 @@ var map2color : int := Pic.FileNew ("lvl2colour.bmp")
 
 var char1 : int := Pic.FileNew ("mopebad.bmp")
 
+var titlemain : int := Pic.FileNew ("TITLE1.bmp")
+
+var end1 : int := Pic.FileNew ("END1.bmp")
 
 var Message : int := Pic.FileNew ("message.bmp")
 
@@ -58,7 +42,7 @@ preKeys := keys
 
 % Position and velocity of the player
 var pos : Vector2
-pos.x := 30;
+pos.x := 30
 pos.y := 120
 var vel : Vector2
 vel.x := 0;
@@ -91,15 +75,15 @@ fillbox (0, 0, 0, 0, RGB.AddColor (0.01, 0.01, 0.01))
 
 
 %process DoMusic
-    %loop
-       % Music.PlayFile ("Music2.mp3")
-    %end loop
+%loop
+% Music.PlayFile ("Music2.mp3")
+%end loop
 %end DoMusic
 
 %fork DoMusic
 %proc MOVEMENT
 
-    % Move dependent of collision with level and what keys are down
+% Move dependent of collision with level and what keys are down
 proc MOVEMENT
     if (isTouchingGround) then
 	if (keys (' ') and ~preKeys (' ')) then
@@ -301,9 +285,9 @@ proc MOVEMENT
 	    round (pos.y - size.y + cam.y)) = green
 	    or whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
 	    round (pos.y + size.y + cam.y)) = green)
-	    and Lvl = 1 then
-	Lvl := 2
-	
+	    and Lvl = 2 then
+	Lvl := 3
+
 	pos.x := 50
 	pos.y := 250
 	cam.x := 0
@@ -316,8 +300,8 @@ proc MOVEMENT
 	    round (pos.y - size.y + cam.y)) = green
 	    or whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
 	    round (pos.y + size.y + cam.y)) = green)
-	    and Lvl = 2 then
-	Lvl := 3
+	    and Lvl = 3 then
+	Lvl := 4
 
 	pos.x := 25
 	pos.y := 290
@@ -331,8 +315,8 @@ proc MOVEMENT
 	    round (pos.y - size.y + cam.y)) = green
 	    or whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
 	    round (pos.y + size.y + cam.y)) = green)
-	    and Lvl = 3 then
-	Lvl := 4
+	    and Lvl = 4 then
+	Lvl := 5
 
 	pos.x := 30
 	pos.y := 80
@@ -342,14 +326,21 @@ proc MOVEMENT
 	vel.y := 0
     end if
 
+    if (whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
+	    round (pos.y - size.y + cam.y)) = green
+	    or whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
+	    round (pos.y + size.y + cam.y)) = green)
+	    and Lvl = 5 then
+	Lvl := 6
+    end if
 
     %Death system!
     if (whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
 	    round (pos.y - size.y + cam.y)) = brightred
 	    or whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
 	    round (pos.y + size.y + cam.y)) = brightred)
-	    and Lvl = 1 then
-	Lvl := 1
+	    and Lvl = 2 then
+	Lvl := 2
 	pos.x := 40
 	pos.y := 120
 	cam.x := 0
@@ -359,8 +350,8 @@ proc MOVEMENT
 	    round (pos.y - size.y + cam.y)) = brightred
 	    or whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
 	    round (pos.y + size.y + cam.y)) = brightred)
-	    and Lvl = 2 then
-	Lvl := 2
+	    and Lvl = 3 then
+	Lvl := 3
 	pos.x := 56
 	pos.y := 250
 	cam.x := 0
@@ -370,8 +361,8 @@ proc MOVEMENT
 	    round (pos.y - size.y + cam.y)) = brightred
 	    or whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
 	    round (pos.y + size.y + cam.y)) = brightred)
-	    and Lvl = 3 then
-	Lvl := 3
+	    and Lvl = 4 then
+	Lvl := 4
 	pos.x := 25
 	pos.y := 290
 	cam.x := 0
@@ -384,8 +375,8 @@ proc MOVEMENT
 	    round (pos.y - size.y + cam.y)) = brightred
 	    or whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
 	    round (pos.y + size.y + cam.y)) = brightred)
-	    and Lvl = 4 then
-	Lvl := 4
+	    and Lvl = 5 then
+	Lvl := 5
 	pos.x := 30
 	pos.y := 80
 	cam.x := 0
@@ -399,49 +390,79 @@ proc MOVEMENT
 end MOVEMENT
 
 
+%Running the Game
+
+proc title
+
+    if keys (' ') then
+	%only active for space bar!
+	pos.x := 30
+	pos.y := 120
+	Lvl := Lvl + 1
+
+    end if
+
+
+
+end title
+
 proc Level1
     cls
-    Pic.Draw (map1, round (cam.x), round (cam.y), picCopy)
-    MOVEMENT
-    Pic.Draw (map1color, round (cam.x), round (cam.y), picCopy)
-     fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, cyan)
-    if Lvl = 1 then
-	drawfillbox (0, 0, 200, 750, white)
-	Pic.Draw (Message, 0, -50, picMerge)
-    end if
+    Pic.Draw (titlemain, 0, 0, picCopy)
+    title   
     View.Update
 end Level1
 
 proc Level2
     cls
-    Pic.Draw (map2, round (cam.x), round (cam.y), picCopy)
-    % Draws player
-    fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, cyan)
+    Pic.Draw (map1, round (cam.x), round (cam.y), picCopy)
     MOVEMENT
+    Pic.Draw (map1color, round (cam.x), round (cam.y), picCopy)
+    fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, brightpurple)
+    if Lvl = 1 then
+	drawfillbox (0, 0, 200, 750, white)
+	Pic.Draw (Message, 0, -50, picMerge)
+    end if
     View.Update
 end Level2
 
 proc Level3
     cls
-    Pic.Draw (map3, round (cam.x), round (cam.y), picCopy)
-    % Draws player
-    fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, cyan)
-
+    Pic.Draw (map2, round (cam.x), round (cam.y), picCopy)
     MOVEMENT
+    Pic.Draw (map2color, round (cam.x), round (cam.y), picCopy)
+    fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, brightpurple)
 
     View.Update
 end Level3
 
 proc Level4
     cls
-    Pic.Draw (map4, round (cam.x), round (cam.y), picCopy)
+    Pic.Draw (map3, round (cam.x), round (cam.y), picCopy)
     % Draws player
-    fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, cyan)
+    fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, brightpurple)
 
     MOVEMENT
 
     View.Update
 end Level4
+
+proc Level5
+    cls
+    Pic.Draw (map4, round (cam.x), round (cam.y), picCopy)
+    % Draws player
+    fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, brightpurple)
+
+    MOVEMENT
+
+    View.Update
+end Level5
+
+proc Level6
+    cls 
+    Pic.Draw (end1, 0, 0, picCopy)
+    View.Update
+end Level6
 
 
 
@@ -460,7 +481,9 @@ loop
     elsif Lvl = 4 then
 	Level4
     elsif Lvl = 5 then
-
+	Level5
+    elsif Lvl = 6 then
+	Level6
     end if
 end loop
 
