@@ -96,7 +96,7 @@ fillbox (0, 0, 0, 0, RGB.AddColor (0.01, 0.01, 0.01))
 %proc MOVEMENT
 
     % Move dependent of collision with level and what keys are down
-
+proc MOVEMENT
     if (isTouchingGround) then
 	if (keys (' ') and ~preKeys (' ')) then
 	    vel.y += 16
