@@ -38,6 +38,7 @@ var map4color : int := Pic.FileNew ("lvl4colour.bmp")
 
 var Message : int := Pic.FileNew ("message.bmp")
 
+
 % Holds key data
 var keys : array char of boolean
 var preKeys : array char of boolean
@@ -77,14 +78,19 @@ end fillbox
 colourback (black)
 fillbox (0, 0, 0, 0, RGB.AddColor (0.01, 0.01, 0.01))
 
+%MUSIC
 
-process DoMusic
+process Death
+ Music.PlayFile ("deathsound.mp3")
+end Death
+
+process BackgroundMusic
 loop
  Music.PlayFile ("Music2.mp3")
 end loop
-end DoMusic
+end BackgroundMusic
 
-fork DoMusic
+fork BackgroundMusic
 
 
 % Move dependent of collision with level and what keys are down
@@ -339,6 +345,14 @@ proc MOVEMENT
     end if
 
     %Death system!
+    
+    if (whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
+	    round (pos.y - size.y + cam.y)) = brightred
+	    or whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
+	    round (pos.y + size.y + cam.y)) = brightred) then
+	fork Death
+    end if
+	
     if (whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
 	    round (pos.y - size.y + cam.y)) = brightred
 	    or whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
