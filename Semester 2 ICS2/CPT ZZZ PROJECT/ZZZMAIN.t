@@ -344,7 +344,7 @@ proc MOVEMENT
 	Lvl := 6
     end if
 
-    %Death system!
+    %Death system
     
     if (whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
 	    round (pos.y - size.y + cam.y)) = brightred
@@ -439,7 +439,7 @@ proc Level2
     fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, brightpurple)
     if Lvl = 2 then
 	drawfillbox (0, 0, 200, 750, white)
-	Pic.Draw (Message, 0, -50, picMerge)
+	Pic.Draw (Message, 0, -35, picMerge)
     end if
     View.Update
 end Level2
