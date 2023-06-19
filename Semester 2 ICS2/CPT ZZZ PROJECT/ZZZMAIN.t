@@ -26,8 +26,6 @@ var map1color : int := Pic.FileNew ("lvl1colour.bmp")
 
 var map2color : int := Pic.FileNew ("lvl2colour.bmp")
 
-var char1 : int := Pic.FileNew ("mopebad.bmp")
-
 var titlemain : int := Pic.FileNew ("TITLE1.bmp")
 
 var end1 : int := Pic.FileNew ("END1.bmp")
@@ -38,6 +36,7 @@ var map4color : int := Pic.FileNew ("lvl4colour.bmp")
 
 var Message : int := Pic.FileNew ("message.bmp")
 
+var char1 : int := Pic.FileNew ("char.bmp")
 
 % Holds key data
 var keys : array char of boolean
@@ -62,6 +61,8 @@ cam.y := 0
 var size : Vector2
 size.x := 22;
 size.y := 22
+
+
 
 % Collision booleans and directions
 var isTouchingGround : boolean := false
@@ -406,8 +407,13 @@ end if
 
 end MOVEMENT
 
+var posx, posy : int
+posx := round(pos.x + cam.x)
+posy := round(pos.y + cam.y)
 
 %Running the Game
+
+
 
 proc title
 
@@ -433,10 +439,16 @@ end Level1
 proc Level2
     cls
     Pic.Draw (map1, round (cam.x), round (cam.y), picCopy)
+
+	
     MOVEMENT
+     
     Pic.Draw (map1color, round (cam.x), round (cam.y), picCopy)
-    fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, brightpurple)
+     fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, brightpurple)
+
+   
     if Lvl = 2 then
+   
 	drawfillbox (0, 0, 200, 750, white)
 	Pic.Draw (Message, 0, -35, picMerge)
     end if
@@ -471,6 +483,7 @@ proc Level5
     MOVEMENT
     Pic.Draw (map4color, round (cam.x), round (cam.y), picCopy)
     fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, brightpurple)
+
     View.Update
 end Level5
 
