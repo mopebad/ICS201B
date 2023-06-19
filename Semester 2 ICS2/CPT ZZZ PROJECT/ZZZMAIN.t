@@ -69,10 +69,16 @@ var isTouchingGround : boolean := false
 var isTouchingWall : boolean := false
 var wallDir : int := 0
 
+
+
 % Player
 proc fillbox (x : real, y : real, x2 : real, y2 : real, c : int)
     Draw.FillBox (round (x + cam.x), round (y + cam.y), round (x2 + cam.x),
 	round (y2 + cam.y), c)
+	var posx, posy : int
+ posx := round(x + cam.x) - round(size.x / 2) + 11
+    posy := round(y + cam.y) - round(size.y / 2)  +11
+	Pic.Draw (char1, posx, posy, picMerge)
 end fillbox
 
 % Draws a nonexistent box for the outside of the map.
@@ -82,13 +88,13 @@ fillbox (0, 0, 0, 0, RGB.AddColor (0.01, 0.01, 0.01))
 %MUSIC
 
 process Death
- Music.PlayFile ("deathsound.mp3")
+    Music.PlayFile ("deathsound.mp3")
 end Death
 
 process BackgroundMusic
-loop
- Music.PlayFile ("Music2.mp3")
-end loop
+    loop
+	Music.PlayFile ("Music2.mp3")
+    end loop
 end BackgroundMusic
 
 fork BackgroundMusic
@@ -98,8 +104,8 @@ fork BackgroundMusic
 proc MOVEMENT
     if (isTouchingGround) then
 	if ((keys (' ') and ~preKeys (' ')) or (keys ('w') and ~preKeys ('w'))) then
-    vel.y += 16
-end if  
+	    vel.y += 16
+	end if
 	if (keys ('a')) then
 	    vel.x -= 1
 	end if
@@ -345,14 +351,14 @@ end if
     end if
 
     %Death system
-    
+
     if (whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
 	    round (pos.y - size.y + cam.y)) = brightred
 	    or whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
 	    round (pos.y + size.y + cam.y)) = brightred) then
 	fork Death
     end if
-	
+
     if (whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
 	    round (pos.y - size.y + cam.y)) = brightred
 	    or whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
@@ -363,6 +369,8 @@ end if
 	pos.y := 120
 	cam.x := 0
 	cam.y := 0
+	vel.x := 0
+	vel.y := 0
     end if
     if (whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
 	    round (pos.y - size.y + cam.y)) = brightred
@@ -374,6 +382,8 @@ end if
 	pos.y := 250
 	cam.x := 0
 	cam.y := 0
+	vel.x := 0
+	vel.y := 0
     end if
     if (whatdotcolour (round (pos.x + vel.x + size.x + cam.x),
 	    round (pos.y - size.y + cam.y)) = brightred
@@ -399,6 +409,8 @@ end if
 	pos.y := 80
 	cam.x := 0
 	cam.y := 0
+	vel.x := 0
+	vel.y := 0
     end if
 
     % Delays
@@ -407,9 +419,6 @@ end if
 
 end MOVEMENT
 
-var posx, posy : int
-posx := round(pos.x + cam.x)
-posy := round(pos.y + cam.y)
 
 %Running the Game
 
@@ -432,7 +441,7 @@ end title
 proc Level1
     cls
     Pic.Draw (titlemain, 0, 0, picCopy)
-    title   
+    title
     View.Update
 end Level1
 
@@ -440,18 +449,20 @@ proc Level2
     cls
     Pic.Draw (map1, round (cam.x), round (cam.y), picCopy)
 
-	
-    MOVEMENT
-     
-    Pic.Draw (map1color, round (cam.x), round (cam.y), picCopy)
-     fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, brightpurple)
 
-   
+    MOVEMENT
+
+    Pic.Draw (map1color, round (cam.x), round (cam.y), picCopy)
+
+    fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, brightpurple)
+
+
     if Lvl = 2 then
-   
+
 	drawfillbox (0, 0, 200, 750, white)
 	Pic.Draw (Message, 0, -35, picMerge)
     end if
+   
     View.Update
 end Level2
 
@@ -472,7 +483,7 @@ proc Level4
     Pic.Draw (map3color, round (cam.x), round (cam.y), picCopy)
     fillbox (pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y, brightpurple)
 
-    
+
 
     View.Update
 end Level4
@@ -488,7 +499,7 @@ proc Level5
 end Level5
 
 proc Level6
-    cls 
+    cls
     Pic.Draw (end1, 0, 0, picCopy)
     View.Update
 end Level6
