@@ -96,10 +96,9 @@ fork BackgroundMusic
 % Move dependent of collision with level and what keys are down
 proc MOVEMENT
     if (isTouchingGround) then
-	if (keys (' ') and ~preKeys (' ')) then
-	    vel.y += 16
-	end if
-
+	if ((keys (' ') and ~preKeys (' ')) or (keys ('w') and ~preKeys ('w'))) then
+    vel.y += 16
+end if  
 	if (keys ('a')) then
 	    vel.x -= 1
 	end if
@@ -108,7 +107,7 @@ proc MOVEMENT
 	end if
     else
 	if (isTouchingWall) then
-	    if (keys (' ') and ~preKeys (' ')) then
+	    if (keys (' ') and ~preKeys (' ')) or (keys ('w') and ~preKeys ('w')) then
 		vel.y += 16
 		vel.x += 7 * wallDir
 	    end if
