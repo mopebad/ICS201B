@@ -36,7 +36,7 @@ var map4color : int := Pic.FileNew ("lvl4colour.bmp")
 
 var Message : int := Pic.FileNew ("message.bmp")
 
-var char1 : int := Pic.FileNew ("char.bmp")
+var char1 : int := Pic.FileNew ("char3.bmp")
 
 % Holds key data
 var keys : array char of boolean
