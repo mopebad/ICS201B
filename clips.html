@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-pop Clips</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Shiczophrenia stage 1</h1>
+    </header>
+
+    <main>
+       
+    
+        <div class="clip">
+            <h3>SANA (TWICE)</h3>
+            <video controls>
+                <source src="vids/SANA2.mp4" type="video/mp4">
+            </video>
+        </div>
+    
+        <div class="clip">
+            <h3>Clip 2</h3>
+            <video src="path/to/clip2.mp4" controls></video>
+        </div>
+    
+        <!-- Add more clip divs as needed -->
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Kpop Addiction</p>
+        <button id="back-button">Go Back</button>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+<script>
+    const video = document.querySelector('video');
+    video.currentTime = 3; // Set the starting time to 3 seconds
+
+    video.volume = 0.3; // Set the initial volume to halfway (50%)
+
+    video.addEventListener('timeupdate', () => {
+        if (video.currentTime >= 15) {
+            video.pause(); // Pause the video when it reaches 15 seconds
+        }
+    });
+</script>
